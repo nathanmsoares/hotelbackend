@@ -1,0 +1,27 @@
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: meu-postgres
+    environment:
+      POSTGRES_DB: banco
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: meu-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: nathan.soares.ns@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: nathan_senha
+    ports:
+      - "8280:80"
+
+volumes:
+  postgres_data:

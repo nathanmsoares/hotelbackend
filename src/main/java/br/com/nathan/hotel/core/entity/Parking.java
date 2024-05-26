@@ -39,6 +39,9 @@ public class Parking {
 
     private Double expense;
 
+    @Builder.Default
+    private Boolean paid = Boolean.FALSE;
+
     @NotNull
     private final Instant createdTime = Instant.now();
 
@@ -58,5 +61,7 @@ public class Parking {
         Set<DayOfWeek> weekendDays = Set.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
         return weekendDays.contains(LocalDateTime.now().getDayOfWeek());
     }
+
+
 
 }

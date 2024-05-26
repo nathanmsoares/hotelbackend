@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/guest")
 @RestController
-public record GuestResource(CreateGuestUC createGuestUC) {
+public record GuestController(CreateGuestUC createGuestUC) {
 
     @PostMapping
     public ResponseEntity<EntityDTO> createGuest(@RequestBody CreateGuestCommand command) {

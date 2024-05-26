@@ -43,6 +43,9 @@ public class RoomReservation {
 
     private Double expense;
 
+    @Builder.Default
+    private Boolean paid = Boolean.FALSE;
+
     @NotNull
     private final Instant createdTime = Instant.now();
 

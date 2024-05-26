@@ -19,6 +19,7 @@ public class CreateReservationUC {
         Reservation reservation = reservationRepository.save(command.toEntity());
         log.info("Saved Reservation id {} on Guest Ids {}", reservation.getId(),
                 reservation.getGuestList().stream().map(Guest::getId).toList());
+
         return reservation;
     }
 }

@@ -74,7 +74,7 @@ public class HotelApplication implements CommandLineRunner {
 
 		CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
 		RoomReservation roomReservation = roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
-		reservation.setRoomReservationList(Arrays.asList(roomReservation));
+//		reservation.setRoomReservationList(Arrays.asList(roomReservation));
 //		reservationRepository.saveAndFlush(reservation);
 		System.out.println("parar");
 

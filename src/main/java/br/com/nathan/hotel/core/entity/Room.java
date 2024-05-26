@@ -25,13 +25,16 @@ public class Room {
 
     @NotNull
     @Positive
+    @Column(name = "floor")
     private Integer floor;
 
     @NotNull
     @Positive
+    @Column(name = "number")
     private Integer number;
 
     @NotNull
+    @Column(name = "created_time")
     private final Instant createdTime = Instant.now();
 
 }

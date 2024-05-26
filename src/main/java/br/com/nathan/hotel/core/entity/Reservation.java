@@ -42,16 +42,19 @@ public class Reservation {
     @NotEmpty
     private List<Guest> guestList;
 
-    @OneToMany
+    @OneToMany(mappedBy = "reservation")
     private List<Parking> parkingList;
 
-    @OneToMany
+    @OneToMany(mappedBy = "reservation")
     private List<RoomReservation> roomReservationList;
 
+    @Column(name = "check_in")
     private LocalDateTime checkIn;
 
+    @Column(name = "check_out")
     private LocalDateTime checkOut;
 
+    @Column(name = "created_time")
     @NotNull
     private final Instant createdTime = Instant.now();
 

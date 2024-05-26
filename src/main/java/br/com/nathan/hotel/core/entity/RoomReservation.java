@@ -35,18 +35,23 @@ public class RoomReservation {
 
     @OneToOne
     @NotNull
+    @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "reservation_id")
     private Reservation reservation;
 
+    @Column(name = "expense")
     private Double expense;
 
     @Builder.Default
+    @Column(name = "paid")
     private Boolean paid = Boolean.FALSE;
 
     @NotNull
+    @Column(name = "created_time")
     private final Instant createdTime = Instant.now();
 
     public void setExpenseFirstDay() {

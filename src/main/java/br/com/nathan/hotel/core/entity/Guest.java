@@ -26,12 +26,15 @@ public class Guest {
     private Long id;
 
     @NotEmpty
+    @Column(name = "name")
     private String name;
 
     @NotEmpty
+    @Column(name = "telephone")
     private String telephone;
 
     @NotEmpty
+    @Column(name = "cpf")
     private String cpf;
 
     @ManyToMany(mappedBy = "guestList")

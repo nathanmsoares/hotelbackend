@@ -8,6 +8,8 @@ public interface GuestRepository {
 
     Guest save(Guest guest);
 
+    Guest saveAndFlush(Guest guest);
+
 //    List<Guest> findByNameOrTelephoneOrCPFAnd
 
     void deleteAll();

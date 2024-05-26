@@ -8,6 +8,8 @@ public interface RoomReservationRepository {
 
     RoomReservation save(RoomReservation roomReservation);
 
+    RoomReservation saveAndFlush(RoomReservation roomReservation);
+
     void deleteAll();
 
     Optional<RoomReservation> findById(Long id);

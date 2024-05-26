@@ -2,13 +2,11 @@ package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.exception.CheckInNotAllowedException;
 import br.com.nathan.hotel.core.exception.RoomReservationEmptyException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,11 +15,8 @@ import java.time.zone.ZoneRulesException;
 import java.util.List;
 import java.util.TimeZone;
 
+@Slf4j
 public class ReservationUnitTest {
-
-    private static final Logger log = LoggerFactory.getLogger(ReservationUnitTest.class);
-    @Mock
-    private Reservation reservation;
 
     private final TimeZone timeZone = TimeZone.getDefault();
 

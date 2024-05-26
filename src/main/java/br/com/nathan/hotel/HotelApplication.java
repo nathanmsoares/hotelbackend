@@ -2,7 +2,9 @@ package br.com.nathan.hotel;
 
 import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
 import br.com.nathan.hotel.core.entity.Guest;
+import br.com.nathan.hotel.core.entity.Room;
 import br.com.nathan.hotel.core.repository.GuestRepository;
+import br.com.nathan.hotel.core.repository.RoomRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +19,9 @@ public class HotelApplication implements CommandLineRunner {
 	@Autowired
 	private GuestRepository guestRepository;
 
+	@Autowired
+	private RoomRepository roomRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(HotelApplication.class, args);
 	}
@@ -28,9 +33,14 @@ public class HotelApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		CreateGuestCommand guestCommand = new CreateGuestCommand("fulano", "100", "100-100");
-		Guest guest = guestCommand.toEntity();
-		guestRepository.save(guest);
-		System.out.println("parar");
+		Room room = Room.builder()
+				.floor(1)
+				.number(10)
+				.build();
+		roomRepository.save(room);
+//		CreateGuestCommand guestCommand = new CreateGuestCommand("fulano", "100", "100-100");
+//		Guest guest = guestCommand.toEntity();
+//		guestRepository.save(guest);
+//		System.out.println("parar");
 	}
 }

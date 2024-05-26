@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestHotelConfiguration.class)
@@ -43,7 +44,11 @@ public class CreateReservationUCIT {
         Guest guest = guestRepository.save(createGuestCommand.toEntity());
         CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest));
         Reservation reservation = createReservationUC.execute(createReservationCommand);
-        reservation = reservationRepository.findById(reservation.getId()).get();
+
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
+        Assertions.assertTrue(reservationOptional.isPresent());
+
+        reservation = reservationOptional.get();
         Assertions.assertEquals(guest, reservation.getGuestList().get(0));
     }
 

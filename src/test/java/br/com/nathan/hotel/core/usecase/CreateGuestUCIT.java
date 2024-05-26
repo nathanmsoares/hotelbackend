@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Optional;
+
 @SpringBootTest
 @ContextConfiguration(classes = TestHotelConfiguration.class)
 public class CreateGuestUCIT {
@@ -35,7 +37,11 @@ public class CreateGuestUCIT {
         CreateGuestCommand createGuestCommand =
                 new CreateGuestCommand("name", "+554799999999", "100999999-20");
         Guest guest = createGuestUC.execute(createGuestCommand);
-        guest = guestRepository.findById(guest.getId()).get();
+
+        Optional<Guest> guestOptional = guestRepository.findById(guest.getId());
+        Assertions.assertTrue(guestOptional.isPresent());
+
+        guest = guestOptional.get();
         Assertions.assertEquals(createGuestCommand.getName(), guest.getName());
         Assertions.assertEquals(createGuestCommand.getCpf(), guest.getCpf());
         Assertions.assertEquals(createGuestCommand.getTelephone(), guest.getTelephone());

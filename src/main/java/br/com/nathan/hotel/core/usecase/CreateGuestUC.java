@@ -5,16 +5,20 @@ import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.repository.GuestRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CreateGuestUC {
 
     private final GuestRepository guestRepository;
 
     public Guest execute(CreateGuestCommand command) {
-        return guestRepository.saveEntity(command.toEntity());
+        Guest guest = guestRepository.save(command.toEntity());
+        log.info("Saved Guest id {}", guest.getId());
+        return guest;
     }
 
 }

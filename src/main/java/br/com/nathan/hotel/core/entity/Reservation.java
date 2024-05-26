@@ -1,6 +1,7 @@
 package br.com.nathan.hotel.core.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,18 +26,26 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
 
-    @OneToOne
-    @NotNull
-    private Room room;
-
     @ManyToMany
     @JoinTable(
-            name = "reservation_guests",
+            name = "reservation_guest",
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "guest_id")
     )
+    @NotEmpty
     private List<Guest> guestList;
 
+    @OneToMany
+    private List<Parking> parkingList;
+
+    @OneToMany
+    private List<RoomReservation> roomReservationList;
+
+    private LocalDateTime checkIn;
+
+    private LocalDateTime checkOut;
+
+    @NotNull
     private final Instant createdTime = Instant.now();
 
 }

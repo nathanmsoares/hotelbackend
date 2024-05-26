@@ -6,8 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GuestJPARepository extends GuestRepository, JpaRepository<Guest, Long> {
 
-    default Guest saveEntity(Guest guest) {
-        return save(guest);
-    }
-
 }

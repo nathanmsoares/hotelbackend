@@ -7,22 +7,21 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@Slf4j
 public class CreateReservationCommand {
-
-    @NotNull
-    private Room room;
 
     @NotEmpty
     private List<Guest> guestList;
 
     public Reservation toEntity() {
+        log.info("Creating Reservation on Guest Ids {}", guestList.stream().map(Guest::getId).toList());
         return Reservation.builder()
-                .room(room)
                 .guestList(guestList)
                 .build();
     }

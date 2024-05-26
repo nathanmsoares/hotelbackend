@@ -2,12 +2,14 @@ package br.com.nathan.hotel.core.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "guest_hotel")
@@ -32,6 +34,10 @@ public class Guest {
     @NotEmpty
     private String cpf;
 
+    @ManyToMany(mappedBy = "guestList")
+    private List<Reservation> reservationList;
+
+    @NotNull
     private final Instant createdTime = Instant.now();
 
 }

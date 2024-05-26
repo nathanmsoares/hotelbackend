@@ -2,9 +2,15 @@ package br.com.nathan.hotel.core.repository;
 
 import br.com.nathan.hotel.core.entity.Guest;
 
+import java.util.Optional;
+
 public interface GuestRepository {
 
-    Guest saveEntity(Guest guest);
+    Guest save(Guest guest);
 
 //    List<Guest> findByNameOrTelephoneOrCPFAnd
+
+    void deleteAll();
+
+    Optional<Guest> findById(Long id);
 }

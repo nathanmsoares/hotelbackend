@@ -1,15 +1,13 @@
 package br.com.nathan.hotel.core.usecase;
 
 import br.com.nathan.hotel.config.TestHotelConfiguration;
-import br.com.nathan.hotel.core.dto.command.CreateRoomReservationCommand;
+import br.com.nathan.hotel.core.dto.command.CreateParkingCommand;
 import br.com.nathan.hotel.core.entity.Guest;
+import br.com.nathan.hotel.core.entity.Parking;
 import br.com.nathan.hotel.core.entity.Reservation;
-import br.com.nathan.hotel.core.entity.Room;
-import br.com.nathan.hotel.core.entity.RoomReservation;
 import br.com.nathan.hotel.core.repository.GuestRepository;
+import br.com.nathan.hotel.core.repository.ParkingRepository;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
-import br.com.nathan.hotel.core.repository.RoomRepository;
-import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -24,40 +22,31 @@ import java.util.Optional;
 
 @SpringBootTest
 @ContextConfiguration(classes = TestHotelConfiguration.class)
-public class CreateRoomReservationUCIT {
+public class CreateParkingUCIT {
 
     @Autowired
-    private CreateRoomReservationUC createRoomReservationUC;
+    private CreateParkingUC createParkingUC;
 
     @Autowired
     private ReservationRepository reservationRepository;
 
     @Autowired
+    private ParkingRepository parkingRepository;
+
+    @Autowired
     private GuestRepository guestRepository;
-
-    @Autowired
-    private RoomReservationRepository roomReservationRepository;
-
-    @Autowired
-    private RoomRepository roomRepository;
 
     @AfterEach
     public void tearDown() {
-        roomReservationRepository.deleteAll();
+        parkingRepository.deleteAll();
         reservationRepository.deleteAll();
         guestRepository.deleteAll();
     }
 
     @Test
-    @DisplayName("Should create a Room Reservation")
+    @DisplayName("Should create a Parking Reservation")
     @Transactional
-    public void createRoomReservation() {
-        Room room = Room.builder()
-                .number(10)
-                .floor(99)
-                .build();
-        room = roomRepository.save(room);
-
+    public void createParking() {
         Guest guest = Guest.builder()
                 .name("name")
                 .cpf("10099999920")
@@ -70,17 +59,15 @@ public class CreateRoomReservationUCIT {
                 .build();
         reservation = reservationRepository.save(reservation);
 
-        CreateRoomReservationCommand command = new CreateRoomReservationCommand(reservation, room);
-        RoomReservation roomReservation = createRoomReservationUC.execute(command);
+        CreateParkingCommand createParkingCommand = new CreateParkingCommand(reservation);
+        Parking parking = createParkingUC.execute(createParkingCommand);
 
-        Optional<RoomReservation> roomReservationOptional = roomReservationRepository.findById(roomReservation.getId());
-        Assertions.assertTrue(roomReservationOptional.isPresent());
+        Optional<Parking> parkingOptional = parkingRepository.findById(parking.getId());
+        Assertions.assertTrue(parkingOptional.isPresent());
 
-        roomReservation = roomReservationOptional.get();
-
-        Assertions.assertEquals(reservation, roomReservation.getReservation());
-        Assertions.assertEquals(room, roomReservation.getRoom());
-        Assertions.assertTrue(roomReservation.getExpense() > 0d);
+        parking = parkingOptional.get();
+        Assertions.assertEquals(reservation, parking.getReservation());
+        Assertions.assertTrue(parking.getExpense() > 0d);
     }
 
 }

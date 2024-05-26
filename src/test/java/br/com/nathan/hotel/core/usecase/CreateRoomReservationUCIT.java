@@ -11,6 +11,7 @@ import br.com.nathan.hotel.core.repository.ReservationRepository;
 import br.com.nathan.hotel.core.repository.RoomRepository;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,13 @@ public class CreateRoomReservationUCIT {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @AfterEach
+    public void tearDown() {
+        roomReservationRepository.deleteAll();
+        reservationRepository.deleteAll();
+        guestRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("Should create a Room Reservation")

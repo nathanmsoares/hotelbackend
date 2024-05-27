@@ -1,6 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.nathan.hotel.core.dto.GuestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -39,10 +39,18 @@ public class Guest {
     private String cpf;
 
     @ManyToMany(mappedBy = "guestList")
-    @JsonIgnore
     private List<Reservation> reservationList;
 
     @NotNull
     private final Instant createdTime = Instant.now();
+
+    public GuestDTO toDTO() {
+        return GuestDTO.builder()
+                .id(getId())
+                .name(getName())
+                .telephone(getTelephone())
+                .cpf(getCpf())
+                .build();
+    }
 
 }

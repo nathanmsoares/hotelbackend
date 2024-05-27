@@ -21,14 +21,6 @@ import java.util.TimeZone;
 @Slf4j
 public class RoomReservationUnitTest {
 
-    private final TimeZone timeZone = TimeZone.getDefault();
-
-    @AfterEach
-    public void tearDown() {
-        System.setProperty("user.timezone", timeZone.getID());
-        TimeZone.setDefault(TimeZone.getTimeZone(timeZone.getID()));
-    }
-
     @Test
     @DisplayName("Should add to expense on Weekend")
     public void addRoomReservationExpensesOnWeekendDay() {

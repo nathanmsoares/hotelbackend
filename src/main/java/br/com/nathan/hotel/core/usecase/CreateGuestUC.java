@@ -1,6 +1,5 @@
 package br.com.nathan.hotel.core.usecase;
 
-import br.com.nathan.hotel.core.dto.EntityDTO;
 import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.repository.GuestRepository;

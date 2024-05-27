@@ -1,7 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.dto.command.CreateParkingCommand;
-import br.com.nathan.hotel.core.dto.command.CreateRoomReservationCommand;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

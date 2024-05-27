@@ -50,7 +50,7 @@ public class Parking {
     private final Instant createdTime = Instant.now();
 
     public void setExpenseFirstDay() {
-        if(Objects.isNull(getExpense())) {
+        if (Objects.isNull(getExpense())) {
             setExpense(getDayPrice());
         }
     }

@@ -72,7 +72,6 @@ public class CalculateRoomReservationUCIT {
     @Test
     @DisplayName("Should add values to expense")
     public void addRoomReservationExpensesOnWeekDay() {
-
         List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaid(Boolean.FALSE);
         calculateRoomReservationUC.execute(LocalDateTime.now().plusDays(1L));
         Assertions.assertTrue(roomReservationList.stream().noneMatch(
@@ -80,7 +79,4 @@ public class CalculateRoomReservationUCIT {
                         .equals(roomReservation.getExpense())
         ));
     }
-
-
-
 }

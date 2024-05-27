@@ -55,7 +55,7 @@ public class RoomReservation {
     private final Instant createdTime = Instant.now();
 
     public void setExpenseFirstDay() {
-        if(Objects.isNull(expense)) {
+        if (Objects.isNull(expense)) {
             setExpense(getDayPrice());
         }
     }

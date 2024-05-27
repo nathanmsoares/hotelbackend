@@ -11,11 +11,11 @@ public interface GuestRepository {
 
     Guest saveAndFlush(Guest guest);
 
-    List<Guest> findAllByNameOrTelephoneOrCpf(String name, String telephone, String cpf);
+    List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContaining(String name, String telephone, String cpf);
 
-    List<Guest> findAllByNameOrTelephoneOrCpfAndReservationListCheckOutIsNullAndReservationListCheckInIsNotNull(String name, String telephone, String cpf);
+    List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckOutIsNullAndReservationListCheckInIsNotNull(String name, String telephone, String cpf);
 
-    List<Guest> findAllByNameOrTelephoneOrCpfAndReservationListCheckInIsNull(String name, String telephone, String cpf);
+    List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckInIsNull(String name, String telephone, String cpf);
 
     void deleteAll();
 

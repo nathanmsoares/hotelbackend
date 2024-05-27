@@ -18,7 +18,7 @@ public class FindGuestGenericUC {
 
     public List<GuestDTO> findGuests(String field) {
         log.info("Finding Guests by generic info");
-        return guestRepository.findAllByNameOrTelephoneOrCpf(field, field, field).stream().map(
+        return guestRepository.findAllByNameContainingOrTelephoneContainingOrCpfContaining(field, field, field).stream().map(
                 Guest::toDTO
         ).toList();
     }

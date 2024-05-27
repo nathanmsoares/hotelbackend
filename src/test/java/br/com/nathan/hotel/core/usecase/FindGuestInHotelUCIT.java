@@ -48,6 +48,9 @@ public class FindGuestInHotelUCIT {
         Assertions.assertEquals(2, findGuestInHotelUC.findGuests(guestFirst.getName()).size());
         Assertions.assertEquals(1, findGuestInHotelUC.findGuests(guestFirst.getCpf()).size());
         Assertions.assertEquals(1, findGuestInHotelUC.findGuests(guestSecond.getTelephone()).size());
+        Assertions.assertEquals(1, findGuestInHotelUC.findGuests("20").size());
+        Assertions.assertEquals(2, findGuestInHotelUC.findGuests("99").size());
+        Assertions.assertEquals(1, findGuestInHotelUC.findGuests("92").size());
     }
 
 }

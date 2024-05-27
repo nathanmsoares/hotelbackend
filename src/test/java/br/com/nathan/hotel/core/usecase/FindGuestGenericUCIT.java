@@ -34,6 +34,9 @@ public class FindGuestGenericUCIT {
         Assertions.assertEquals(2, findGuestGenericUC.findGuests(guestFirst.getName()).size());
         Assertions.assertEquals(1, findGuestGenericUC.findGuests(guestFirst.getCpf()).size());
         Assertions.assertEquals(1, findGuestGenericUC.findGuests(guestSecond.getTelephone()).size());
+        Assertions.assertEquals(1, findGuestGenericUC.findGuests("20").size());
+        Assertions.assertEquals(2, findGuestGenericUC.findGuests("99").size());
+        Assertions.assertEquals(1, findGuestGenericUC.findGuests("92").size());
     }
 
 }

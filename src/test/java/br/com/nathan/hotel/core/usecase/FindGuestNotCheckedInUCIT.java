@@ -46,6 +46,9 @@ public class FindGuestNotCheckedInUCIT {
         Assertions.assertEquals(2, findGuestNotCheckedInUC.findGuests(guestFirst.getName()).size());
         Assertions.assertEquals(1, findGuestNotCheckedInUC.findGuests(guestFirst.getCpf()).size());
         Assertions.assertEquals(1, findGuestNotCheckedInUC.findGuests(guestSecond.getTelephone()).size());
+        Assertions.assertEquals(1, findGuestNotCheckedInUC.findGuests("20").size());
+        Assertions.assertEquals(2, findGuestNotCheckedInUC.findGuests("99").size());
+        Assertions.assertEquals(1, findGuestNotCheckedInUC.findGuests("92").size());
     }
 
 }

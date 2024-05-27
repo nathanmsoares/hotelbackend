@@ -56,9 +56,11 @@ public class RoomReservationUnitTest {
                     CreateRoomReservationCommand(Reservation.builder().checkIn(today).build(), new Room()).toEntity();
             roomReservation.setExpenseFirstDay();
             Double expenseBefore = roomReservation.getExpense();
+            Assertions.assertFalse(roomReservation.getClosed());
             roomReservation.checkOut();
             Double expenseAfter = roomReservation.getExpense();
             Assertions.assertEquals(expenseBefore, expenseAfter);
+            Assertions.assertTrue(roomReservation.getClosed());
         }
     }
 
@@ -73,9 +75,11 @@ public class RoomReservationUnitTest {
                     CreateRoomReservationCommand(Reservation.builder().checkIn(today).build(), new Room()).toEntity();
             roomReservation.setExpenseFirstDay();
             Double expenseBefore = roomReservation.getExpense();
+            Assertions.assertFalse(roomReservation.getClosed());
             roomReservation.checkOut();
             Double expenseAfter = roomReservation.getExpense();
             Assertions.assertEquals(expenseBefore, expenseAfter);
+            Assertions.assertTrue(roomReservation.getClosed());
         }
     }
 
@@ -90,9 +94,11 @@ public class RoomReservationUnitTest {
                     CreateRoomReservationCommand(Reservation.builder().checkIn(today.plusDays(1)).build(), new Room()).toEntity();
             roomReservation.setExpenseFirstDay();
             Double expenseBefore = roomReservation.getExpense();
+            Assertions.assertFalse(roomReservation.getClosed());
             roomReservation.checkOut();
             Double expenseAfter = roomReservation.getExpense();
             Assertions.assertEquals(0, expenseAfter - expenseBefore);
+            Assertions.assertTrue(roomReservation.getClosed());
         }
     }
 

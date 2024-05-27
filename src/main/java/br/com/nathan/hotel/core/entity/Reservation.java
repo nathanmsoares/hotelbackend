@@ -90,7 +90,11 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
     }
 
     public void checkOut() {
-
+        if (Objects.isNull(getCheckOut())) {
+            getParkingList().forEach(Parking::checkOut);
+            getRoomReservationList().forEach(RoomReservation::checkOut);
+            setCheckOut(LocalDateTime.now());
+        }
     }
 
     private void isCheckedIn() {

@@ -63,9 +63,11 @@ public class ParkingUnitTest {
             Parking parking = new CreateParkingCommand(Reservation.builder().id(10L).checkIn(tomorrow.minusDays(1)).build()).toEntity();
             parking.setExpenseFirstDay();
             Double expenseBefore = parking.getExpense();
+            Assertions.assertFalse(parking.getClosed());
             parking.checkOut();
             Double expenseAfter = parking.getExpense();
             Assertions.assertEquals(7.5, expenseBefore - expenseAfter);
+            Assertions.assertTrue(parking.getClosed());
         }
     }
 
@@ -80,9 +82,11 @@ public class ParkingUnitTest {
                     Reservation.builder().id(10L).checkIn(tomorrow.minusDays(1)).build()).toEntity();
             parking.setExpenseFirstDay();
             Double expenseBefore = parking.getExpense();
+            Assertions.assertFalse(parking.getClosed());
             parking.checkOut();
             Double expenseAfter = parking.getExpense();
             Assertions.assertEquals(10, expenseBefore - expenseAfter);
+            Assertions.assertTrue(parking.getClosed());
         }
     }
 
@@ -96,9 +100,11 @@ public class ParkingUnitTest {
             Parking parking = new CreateParkingCommand(Reservation.builder().id(10L).checkIn(tomorrow.minusDays(1)).build()).toEntity();
             parking.setExpenseFirstDay();
             Double expenseBefore = parking.getExpense();
+            Assertions.assertFalse(parking.getClosed());
             parking.checkOut();
             Double expenseAfter = parking.getExpense();
             Assertions.assertEquals(0, expenseBefore - expenseAfter);
+            Assertions.assertTrue(parking.getClosed());
         }
     }
 

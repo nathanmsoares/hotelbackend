@@ -69,7 +69,7 @@ public class RoomReservation {
             log.info("Checking out on id {}", getId());
             reducePrice();
         }
-
+        setClosed(Boolean.TRUE);
     }
 
     private Boolean isCheckInCheckOutSameDay() {

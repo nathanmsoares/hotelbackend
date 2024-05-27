@@ -38,7 +38,7 @@ public class ParkingUnitTest {
     }
 
     @Test
-    @DisplayName("Should add to expense on Week day and set Paid")
+    @DisplayName("Should add to expense on Week day")
     public void addParkingExpensesOnWeekDay() {
         LocalDateTime tomorrow = LocalDateTime.of(2024, 5, 27, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
@@ -54,7 +54,7 @@ public class ParkingUnitTest {
     }
 
     @Test
-    @DisplayName("Should reduce expense on Week day after 12 hour and set Paid")
+    @DisplayName("Should reduce expense on Week day after 12 hour")
     public void shouldReduceParkingExpensesOnWeekDay() {
         LocalDateTime tomorrow = LocalDateTime.of(2024, 5, 27, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
@@ -70,7 +70,7 @@ public class ParkingUnitTest {
     }
 
     @Test
-    @DisplayName("Should reduce expense on Weekend day after 12 hour and set Paid")
+    @DisplayName("Should reduce expense on Weekend day after 12 hour")
     public void shouldReduceParkingExpensesOnWeekendDay() {
         LocalDateTime tomorrow = LocalDateTime.of(2024, 5, 26, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {

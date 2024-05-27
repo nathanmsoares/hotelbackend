@@ -47,7 +47,7 @@ public class RoomReservationUnitTest {
 
     @Test
     @DisplayName("Should not reduce expense on Week day after 12 hour when check-out is on the same day")
-    public void shouldReduceExpensesOnWeekDay() {
+    public void shouldNotReduceExpensesOnWeekDay() {
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
             mockedStatic.when(LocalDateTime::now)
@@ -61,5 +61,40 @@ public class RoomReservationUnitTest {
             Assertions.assertEquals(expenseBefore, expenseAfter);
         }
     }
+
+    @Test
+    @DisplayName("Should not reduce expense on Week day after 12 hour when hour is before checkout hour")
+    public void shouldNotReduceExpensesOnWeekDayBeforeHour() {
+        LocalDateTime today = LocalDateTime.of(2024, 5, 27, 11, 00);
+        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedStatic.when(LocalDateTime::now)
+                    .thenReturn(today);
+            RoomReservation roomReservation = new
+                    CreateRoomReservationCommand(Reservation.builder().checkIn(today).build(), new Room()).toEntity();
+            roomReservation.setExpenseFirstDay();
+            Double expenseBefore = roomReservation.getExpense();
+            roomReservation.checkOut();
+            Double expenseAfter = roomReservation.getExpense();
+            Assertions.assertEquals(expenseBefore, expenseAfter);
+        }
+    }
+
+    @Test
+    @DisplayName("Should reduce expense on Week day after 12 hour")
+    public void shouldReduceExpensesOnWeekDayBeforeHour() {
+        LocalDateTime today = LocalDateTime.of(2024, 5, 27, 11, 00);
+        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedStatic.when(LocalDateTime::now)
+                    .thenReturn(today);
+            RoomReservation roomReservation = new
+                    CreateRoomReservationCommand(Reservation.builder().checkIn(today.plusDays(1)).build(), new Room()).toEntity();
+            roomReservation.setExpenseFirstDay();
+            Double expenseBefore = roomReservation.getExpense();
+            roomReservation.checkOut();
+            Double expenseAfter = roomReservation.getExpense();
+            Assertions.assertEquals(0, expenseAfter - expenseBefore);
+        }
+    }
+
 
 }

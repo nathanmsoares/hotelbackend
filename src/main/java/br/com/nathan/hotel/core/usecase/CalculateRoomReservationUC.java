@@ -18,11 +18,11 @@ public class CalculateRoomReservationUC {
     private final RoomReservationRepository roomReservationRepository;
 
     @Transactional
-    public void execute(LocalDateTime today) {
-        log.info("Calculate Room Reservation price for the day on {}", today);
+    public void execute() {
+        log.info("Calculate Room Reservation price for the day on {}", LocalDateTime.now());
         List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaid(Boolean.FALSE);
         roomReservationList.forEach(RoomReservation::addExpenseToTheDay);
-        roomReservationRepository.saveAll(roomReservationList);
+        roomReservationRepository.saveAllRoomReservation(roomReservationList);
     }
 
 }

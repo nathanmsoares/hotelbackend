@@ -1,4 +1,4 @@
-package br.com.nathan.hotel.outbound.rest.jpa;
+package br.com.nathan.hotel.outbound.jpa;
 
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.repository.ReservationRepository;

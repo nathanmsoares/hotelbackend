@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -73,7 +72,7 @@ public class CalculateRoomReservationUCIT {
     @DisplayName("Should add values to expense")
     public void addRoomReservationExpensesOnWeekDay() {
         List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaid(Boolean.FALSE);
-        calculateRoomReservationUC.execute(LocalDateTime.now().plusDays(1L));
+        calculateRoomReservationUC.execute();
         Assertions.assertTrue(roomReservationList.stream().noneMatch(
                 roomReservation -> roomReservationRepository.findById(roomReservation.getId()).get().getExpense()
                         .equals(roomReservation.getExpense())

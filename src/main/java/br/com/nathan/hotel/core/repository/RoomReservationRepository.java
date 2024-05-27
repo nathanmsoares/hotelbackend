@@ -17,6 +17,6 @@ public interface RoomReservationRepository {
 
     List<RoomReservation> findAllByPaid(Boolean paid);
 
-    List<RoomReservation> saveAll(Iterable<RoomReservation> entities);
+    List<RoomReservation> saveAllRoomReservation(List<RoomReservation> roomReservationList);
 
 }

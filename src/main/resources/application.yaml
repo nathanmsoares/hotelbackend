@@ -22,6 +22,12 @@ logging:
         web: DEBUG
         boot: DEBUG
 
+schedlock:
+  name:
+    parking: parking-shedlock
+    room-reservation: room-reservation
+
+
 
 #spring:
 #  datasource:

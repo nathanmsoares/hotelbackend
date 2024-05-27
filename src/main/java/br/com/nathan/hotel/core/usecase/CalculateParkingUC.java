@@ -18,11 +18,11 @@ public class CalculateParkingUC {
     private final ParkingRepository parkingRepository;
 
     @Transactional
-    public void execute(LocalDateTime today) {
-        log.info("Calculate Room Reservation price for the day on {}", today);
+    public void execute() {
+        log.info("Calculate Room Reservation price for the day on {}", LocalDateTime.now());
         List<Parking> parkingList = parkingRepository.findAllByPaid(Boolean.FALSE);
         parkingList.forEach(Parking::addExpenseToTheDay);
-        parkingRepository.saveAll(parkingList);
+        parkingRepository.saveAllParking(parkingList);
     }
 
 }

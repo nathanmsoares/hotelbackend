@@ -17,5 +17,5 @@ public interface ParkingRepository {
 
     List<Parking> findAllByPaid(Boolean paid);
 
-    List<Parking> saveAll(Iterable<Parking> entities);
+    List<Parking> saveAllParking(List<Parking> parkingList);
 }

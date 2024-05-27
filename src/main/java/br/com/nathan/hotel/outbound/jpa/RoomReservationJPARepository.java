@@ -1,4 +1,4 @@
-package br.com.nathan.hotel.outbound.rest.jpa;
+package br.com.nathan.hotel.outbound.jpa;
 
 import br.com.nathan.hotel.core.entity.RoomReservation;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
@@ -11,5 +11,9 @@ import java.util.List;
 public interface RoomReservationJPARepository extends RoomReservationRepository, JpaRepository<RoomReservation, Long> {
 
     List<RoomReservation> findAllByPaid(Boolean paid);
+
+    default List<RoomReservation> saveAllRoomReservation(List<RoomReservation> roomReservationList) {
+        return saveAll(roomReservationList);
+    }
 
 }

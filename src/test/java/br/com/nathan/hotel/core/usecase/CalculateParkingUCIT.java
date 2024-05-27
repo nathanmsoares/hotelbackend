@@ -66,7 +66,7 @@ public class CalculateParkingUCIT {
     @Test
     @DisplayName("Should add values to expense")
     public void addRoomReservationExpensesOnWeekDay() {
-        List<Parking> parkingList = parkingRepository.findAllByPaidAndReservationCheckInIsNotNull(Boolean.FALSE);
+        List<Parking> parkingList = parkingRepository.findAllByClosedAndReservationCheckInIsNotNull(Boolean.FALSE);
         calculateParkingUC.execute();
         Assertions.assertTrue(parkingList.stream().noneMatch(
                 parking -> parkingRepository.findById(parking.getId()).get().getExpense()

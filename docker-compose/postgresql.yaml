@@ -19,7 +19,7 @@ services:
     container_name: meu-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: nathan.soares.ns@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: nathan_senha
+      PGADMIN_DEFAULT_PASSWORD: nathan_130993
     ports:
       - "8280:80"
 

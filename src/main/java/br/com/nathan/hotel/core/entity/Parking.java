@@ -42,8 +42,8 @@ public class Parking {
     private Double expense;
 
     @Builder.Default
-    @Column(name = "paid")
-    private Boolean paid = Boolean.FALSE;
+    @Column(name = "closed")
+    private Boolean closed = Boolean.FALSE;
 
     @NotNull
     @Column(name = "created_time")

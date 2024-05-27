@@ -1,4 +1,4 @@
-package br.com.nathan.hotel.inbound.eventlistener;
+package br.com.nathan.hotel.inbound.event;
 
 import br.com.nathan.hotel.core.dto.event.CheckInParkingExpenseEvent;
 import br.com.nathan.hotel.core.usecase.SetParkingExpenseUC;

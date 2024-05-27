@@ -17,7 +17,7 @@ public class ParkingUnitTest {
         CreateParkingCommand command = new CreateParkingCommand(new Reservation());
         Parking parking = command.toEntity();
         Assertions.assertEquals(command.getReservation(), parking.getReservation());
-        Assertions.assertEquals(Boolean.FALSE, parking.getPaid());
+        Assertions.assertEquals(Boolean.FALSE, parking.getClosed());
     }
 
 

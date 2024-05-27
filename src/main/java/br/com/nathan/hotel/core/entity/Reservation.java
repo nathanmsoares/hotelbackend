@@ -84,6 +84,7 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
 
         registerEvent(new CheckInRoomReservationExpenseEvent(getRoomReservationList()));
         registerEvent(new CheckInParkingExpenseEvent(getParkingList()));
+
         setCheckIn(checkIn);
         log.info("Checked In on Reservation id {} at {}", getId(), getCheckIn());
     }

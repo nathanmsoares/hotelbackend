@@ -10,8 +10,6 @@ import br.com.nathan.hotel.core.repository.GuestRepository;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
 import br.com.nathan.hotel.core.repository.RoomRepository;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,7 +79,7 @@ public class CalculateRoomReservationUCIT {
         Reservation reservationFound = reservationRepository.findById(reservation.getId()).get();
         reservationFound.checkInHotel();
         reservationRepository.save(reservationFound);
-        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaidAndReservationCheckInIsNotNull(Boolean.FALSE);
+        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByClosedAndReservationCheckInIsNotNull(Boolean.FALSE);
         calculateRoomReservationUC.execute();
         Assertions.assertTrue(roomReservationList.stream().noneMatch(
                 roomReservation -> roomReservationRepository.findById(roomReservation.getId()).get().getExpense()

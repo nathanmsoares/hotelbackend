@@ -15,7 +15,7 @@ public interface RoomReservationRepository {
 
     Optional<RoomReservation> findById(Long id);
 
-    List<RoomReservation> findAllByPaidAndReservationCheckInIsNotNull(Boolean paid);
+    List<RoomReservation> findAllByClosedAndReservationCheckInIsNotNull(Boolean closed);
 
     List<RoomReservation> saveAllRoomReservation(List<RoomReservation> roomReservationList);
 

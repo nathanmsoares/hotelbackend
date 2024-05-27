@@ -46,8 +46,8 @@ public class RoomReservation {
     private Double expense;
 
     @Builder.Default
-    @Column(name = "paid")
-    private Boolean paid = Boolean.FALSE;
+    @Column(name = "closed")
+    private Boolean closed = Boolean.FALSE;
 
     @NotNull
     @Column(name = "created_time")
@@ -69,6 +69,7 @@ public class RoomReservation {
             log.info("Checking out on id {}", getId());
             reducePrice();
         }
+
     }
 
     private Boolean isCheckInCheckOutSameDay() {

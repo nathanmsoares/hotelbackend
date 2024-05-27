@@ -16,10 +16,10 @@ public interface ParkingRepository {
 
     Optional<Parking> findById(Long id);
 
-    List<Parking> findAllByPaid(Boolean paid);
+    List<Parking> findAllByClosed(Boolean closed);
 
     List<Parking> saveAllParking(List<Parking> parkingList);
 
-    List<Parking> findAllByPaidAndReservationCheckInIsNotNull(Boolean paid);
+    List<Parking> findAllByClosedAndReservationCheckInIsNotNull(Boolean closed);
 
 }

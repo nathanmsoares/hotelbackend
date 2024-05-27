@@ -20,7 +20,7 @@ public class CalculateParkingUC {
     @Transactional
     public void execute() {
         log.info("Calculate Room Reservation price for the day on {}", LocalDateTime.now());
-        List<Parking> parkingList = parkingRepository.findAllByPaid(Boolean.FALSE);
+        List<Parking> parkingList = parkingRepository.findAllByClosedAndReservationCheckInIsNotNull(Boolean.FALSE);
         parkingList.forEach(Parking::addExpenseToTheDay);
         parkingRepository.saveAllParking(parkingList);
     }

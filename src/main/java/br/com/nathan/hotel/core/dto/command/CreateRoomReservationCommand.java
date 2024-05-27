@@ -25,7 +25,6 @@ public class CreateRoomReservationCommand {
                 .reservation(reservation)
                 .room(room)
                 .build();
-        roomReservation.setExpenseFirstDay();
         return roomReservation;
     }
 }

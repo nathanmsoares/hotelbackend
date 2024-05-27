@@ -16,8 +16,6 @@ public class CreateRoomReservationCommandUnitTest {
         RoomReservation roomReservation = command.toEntity();
         Assertions.assertEquals(command.getReservation(), roomReservation.getReservation());
         Assertions.assertEquals(command.getRoom(), roomReservation.getRoom());
-        Assertions.assertNotNull(roomReservation.getExpense());
         Assertions.assertEquals(Boolean.FALSE, roomReservation.getPaid());
-        Assertions.assertTrue(roomReservation.getExpense() > 0d);
     }
 }

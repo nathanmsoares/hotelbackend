@@ -1,5 +1,7 @@
 package br.com.nathan.hotel.core.entity;
 
+import br.com.nathan.hotel.core.dto.event.CheckInParkingExpenseEvent;
+import br.com.nathan.hotel.core.dto.event.CheckInRoomReservationExpenseEvent;
 import br.com.nathan.hotel.core.exception.CheckInNotAllowedException;
 import br.com.nathan.hotel.core.exception.RoomReservationEmptyException;
 import jakarta.persistence.*;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -42,11 +45,13 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
     @NotEmpty
     private List<Guest> guestList;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<Parking> parkingList;
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<Parking> parkingList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "reservation")
-    private List<RoomReservation> roomReservationList;
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<RoomReservation> roomReservationList = new ArrayList<>();
 
     @Column(name = "check_in")
     private LocalDateTime checkIn;
@@ -76,6 +81,9 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
         LocalDateTime checkIn = LocalDateTime.now();
         log.info("Checking In on Reservation id {}", getId());
         isCheckInAllowed(checkIn);
+
+        registerEvent(new CheckInRoomReservationExpenseEvent(getRoomReservationList()));
+        registerEvent(new CheckInParkingExpenseEvent(getParkingList()));
         setCheckIn(checkIn);
         log.info("Checked In on Reservation id {} at {}", getId(), getCheckIn());
     }

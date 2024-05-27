@@ -2,26 +2,21 @@ package br.com.nathan.hotel.core.usecase;
 
 import br.com.nathan.hotel.core.entity.RoomReservation;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class CalculateRoomReservationUC {
+public class SetRoomReservationExpenseUC {
 
     private final RoomReservationRepository roomReservationRepository;
 
-    @Transactional
-    public void execute() {
-        log.info("Calculate Room Reservation price for the day on {}", LocalDateTime.now());
-        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaidAndReservationCheckInIsNotNull(Boolean.FALSE);
-        roomReservationList.forEach(RoomReservation::addExpenseToTheDay);
+    public void execute(List<RoomReservation> roomReservationList) {
+        roomReservationList.forEach(RoomReservation::setExpenseFirstDay);
         roomReservationRepository.saveAllRoomReservation(roomReservationList);
     }
 

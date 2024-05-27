@@ -35,7 +35,6 @@ public class RoomReservation {
 
     @OneToOne
     @NotNull
-    @JoinColumn(name = "room_id")
     private Room room;
 
     @ManyToOne
@@ -56,6 +55,7 @@ public class RoomReservation {
 
     public void setExpenseFirstDay() {
         if (Objects.isNull(expense)) {
+            log.info("Setting First day Expense");
             setExpense(getDayPrice());
         }
     }
@@ -65,10 +65,14 @@ public class RoomReservation {
     }
 
     public void checkOut() {
-        if (isAfterCheckOutHour()) {
+        if (!isCheckInCheckOutSameDay() && isAfterCheckOutHour()) {
+            log.info("Checking out on id {}", getId());
             reducePrice();
         }
-        setPaid(Boolean.TRUE);
+    }
+
+    private Boolean isCheckInCheckOutSameDay() {
+        return LocalDateTime.now().toLocalDate().equals(getReservation().getCheckIn().toLocalDate());
     }
 
     private void reducePrice() {

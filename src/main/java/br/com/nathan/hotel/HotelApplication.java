@@ -25,7 +25,7 @@ import java.util.Arrays;
 @EnableScheduling
 @EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
 @SpringBootApplication
-public class HotelApplication implements CommandLineRunner {
+public class HotelApplication {
 
 	@Autowired
 	private GuestRepository guestRepository;
@@ -51,38 +51,38 @@ public class HotelApplication implements CommandLineRunner {
 	@Autowired
 	private ReservationRepository reservationRepository;
 
-	@Override
-	@Transactional
-	public void run(String... args) throws Exception {
-		Room room = Room.builder()
-				.floor(1)
-				.number(10)
-				.build();
-		room = roomRepository.saveAndFlush(room);
-
-		CreateGuestCommand createGuestCommand =
-				new CreateGuestCommand("name", "+554799999999", "100999999-20");
-		Guest guest = guestRepository.saveAndFlush(createGuestCommand.toEntity());
-		CreateReservationCommand createReservationCommand = new CreateReservationCommand(Arrays.asList(guest));
-
-		Reservation reservation = reservationRepository.saveAndFlush(createReservationCommand.toEntity());
-
+//	@Override
+//	@Transactional
+//	public void run(String... args) throws Exception {
 //		Room room = Room.builder()
+//				.floor(1)
 //				.number(10)
-//				.floor(99)
 //				.build();
-//		room = roomRepository.save(room);
-
-		CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
-		RoomReservation roomReservation = roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
-//		reservation.setRoomReservationList(Arrays.asList(roomReservation));
-//		reservationRepository.saveAndFlush(reservation);
-		System.out.println("parar");
-
-
-//		CreateGuestCommand guestCommand = new CreateGuestCommand("fulano", "100", "100-100");
-//		Guest guest = guestCommand.toEntity();
-//		guestRepository.save(guest);
+//		room = roomRepository.saveAndFlush(room);
+//
+//		CreateGuestCommand createGuestCommand =
+//				new CreateGuestCommand("name", "+554799999999", "100999999-20");
+//		Guest guest = guestRepository.saveAndFlush(createGuestCommand.toEntity());
+//		CreateReservationCommand createReservationCommand = new CreateReservationCommand(Arrays.asList(guest));
+//
+//		Reservation reservation = reservationRepository.saveAndFlush(createReservationCommand.toEntity());
+//
+////		Room room = Room.builder()
+////				.number(10)
+////				.floor(99)
+////				.build();
+////		room = roomRepository.save(room);
+//
+//		CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
+//		RoomReservation roomReservation = roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
+////		reservation.setRoomReservationList(Arrays.asList(roomReservation));
+////		reservationRepository.saveAndFlush(reservation);
 //		System.out.println("parar");
-	}
+//
+//
+////		CreateGuestCommand guestCommand = new CreateGuestCommand("fulano", "100", "100-100");
+////		Guest guest = guestCommand.toEntity();
+////		guestRepository.save(guest);
+////		System.out.println("parar");
+//	}
 }

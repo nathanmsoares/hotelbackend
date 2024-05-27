@@ -8,6 +8,8 @@ public interface ReservationRepository {
 
     Reservation save(Reservation reservation);
 
+    Reservation saveEntity(Reservation reservation);
+
     Reservation saveAndFlush(Reservation reservation);
 
     Optional<Reservation> findById(Long id);

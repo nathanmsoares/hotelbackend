@@ -1,6 +1,7 @@
 package br.com.nathan.hotel.core.repository;
 
 import br.com.nathan.hotel.core.entity.Parking;
+import br.com.nathan.hotel.core.entity.RoomReservation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface ParkingRepository {
     List<Parking> findAllByPaid(Boolean paid);
 
     List<Parking> saveAllParking(List<Parking> parkingList);
+
+    List<Parking> findAllByPaidAndReservationCheckInIsNotNull(Boolean paid);
+
 }

@@ -18,7 +18,6 @@ public class CreateParkingCommand {
         Parking parking = Parking.builder()
                 .reservation(reservation)
                 .build();
-        parking.setExpenseFirstDay();
         return parking;
     }
 

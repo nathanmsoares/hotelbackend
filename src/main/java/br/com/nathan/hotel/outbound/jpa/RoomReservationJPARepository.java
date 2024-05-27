@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface RoomReservationJPARepository extends RoomReservationRepository, JpaRepository<RoomReservation, Long> {
 
-    List<RoomReservation> findAllByPaid(Boolean paid);
+    List<RoomReservation> findAllByPaidAndReservationCheckInIsNotNull(Boolean paid);
 
     default List<RoomReservation> saveAllRoomReservation(List<RoomReservation> roomReservationList) {
         return saveAll(roomReservationList);

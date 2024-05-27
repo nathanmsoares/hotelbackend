@@ -67,7 +67,6 @@ public class CreateParkingUCIT {
 
         parking = parkingOptional.get();
         Assertions.assertEquals(reservation, parking.getReservation());
-        Assertions.assertTrue(parking.getExpense() > 0d);
     }
 
 }

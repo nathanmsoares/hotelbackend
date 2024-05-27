@@ -10,14 +10,19 @@ import br.com.nathan.hotel.core.repository.GuestRepository;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
 import br.com.nathan.hotel.core.repository.RoomRepository;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.event.RecordApplicationEvents;
 
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
+@RecordApplicationEvents
 @ContextConfiguration(classes = TestHotelConfiguration.class)
 public class CalculateRoomReservationUCIT {
 
@@ -36,28 +41,30 @@ public class CalculateRoomReservationUCIT {
     @Autowired
     private RoomRepository roomRepository;
 
+    private Reservation reservation;
+
     @BeforeEach
     public void setup() {
         Room room = Room.builder()
                 .number(10)
                 .floor(99)
                 .build();
-        room = roomRepository.save(room);
+        room = roomRepository.saveAndFlush(room);
 
         Guest guest = Guest.builder()
                 .name("name")
                 .cpf("10099999920")
                 .telephone("+5547999999999")
                 .build();
-        guest = guestRepository.save(guest);
+        guest = guestRepository.saveAndFlush(guest);
 
         Reservation reservation = Reservation.builder()
-                .guestList(List.of(guest))
+                .guestList(Arrays.asList(guest))
                 .build();
-        reservation = reservationRepository.save(reservation);
+        this.reservation = reservationRepository.saveAndFlush(reservation);
 
-        CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
-        roomReservationRepository.save(createRoomReservationCommand.toEntity());
+        CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(this.reservation, room);
+        roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
     }
 
     @AfterEach
@@ -71,7 +78,10 @@ public class CalculateRoomReservationUCIT {
     @Test
     @DisplayName("Should add values to expense")
     public void addRoomReservationExpensesOnWeekDay() {
-        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaid(Boolean.FALSE);
+        Reservation reservationFound = reservationRepository.findById(reservation.getId()).get();
+        reservationFound.checkInHotel();
+        reservationRepository.save(reservationFound);
+        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByPaidAndReservationCheckInIsNotNull(Boolean.FALSE);
         calculateRoomReservationUC.execute();
         Assertions.assertTrue(roomReservationList.stream().noneMatch(
                 roomReservation -> roomReservationRepository.findById(roomReservation.getId()).get().getExpense()

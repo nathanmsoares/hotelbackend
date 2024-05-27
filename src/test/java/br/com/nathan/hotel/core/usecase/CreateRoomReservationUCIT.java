@@ -80,7 +80,6 @@ public class CreateRoomReservationUCIT {
 
         Assertions.assertEquals(reservation, roomReservation.getReservation());
         Assertions.assertEquals(room, roomReservation.getRoom());
-        Assertions.assertTrue(roomReservation.getExpense() > 0d);
     }
 
 }

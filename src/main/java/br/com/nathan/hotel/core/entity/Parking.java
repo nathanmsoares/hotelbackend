@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -53,6 +54,21 @@ public class Parking {
         if (Objects.isNull(getExpense())) {
             setExpense(getDayPrice());
         }
+    }
+
+    public void checkOut() {
+        if (isAfterCheckOutHour()) {
+            reducePrice();
+        }
+        setPaid(Boolean.TRUE);
+    }
+
+    private Boolean isAfterCheckOutHour() {
+        return LocalDateTime.now().getHour() > getReservation().getCheckOutHour();
+    }
+
+    private void reducePrice() {
+        setExpense(getExpense() - (getDayPrice() / 2));
     }
 
     private Double getDayPrice() {

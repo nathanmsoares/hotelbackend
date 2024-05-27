@@ -25,7 +25,7 @@ public class ParkingUnitTest {
 
     @Test
     @DisplayName("Should add to expense on Weekend")
-    public void addRoomReservationExpensesOnWeekendDay() {
+    public void addParkingExpensesOnWeekendDay() {
         LocalDateTime today = LocalDateTime.of(2024, 5, 25, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
             mockedStatic.when(LocalDateTime::now)
@@ -40,7 +40,7 @@ public class ParkingUnitTest {
 
     @Test
     @DisplayName("Should add to expense on Week day")
-    public void addRoomReservationExpensesOnWeekDay() {
+    public void addParkingExpensesOnWeekDay() {
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
             mockedStatic.when(LocalDateTime::now)
@@ -50,6 +50,21 @@ public class ParkingUnitTest {
             parking.addExpenseToTheDay();
             Double expenseAfter = parking.getExpense();
             Assertions.assertEquals(15d, expenseAfter - expenseBefore);
+        }
+    }
+
+    @Test
+    @DisplayName("Should reduce expense on Week day after 12 hour")
+    public void reduceParkingExpensesOnWeekDay() {
+        LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
+        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedStatic.when(LocalDateTime::now)
+                    .thenReturn(today);
+            Parking parking = new CreateParkingCommand(Reservation.builder().id(10L).build()).toEntity();
+            Double expenseBefore = parking.getExpense();
+            parking.checkOut();
+            Double expenseAfter = parking.getExpense();
+            Assertions.assertEquals(7.5, expenseBefore - expenseAfter);
         }
     }
 

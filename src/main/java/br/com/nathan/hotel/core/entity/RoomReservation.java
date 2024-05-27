@@ -60,6 +60,25 @@ public class RoomReservation {
         }
     }
 
+    public void addExpenseToTheDay() {
+        setExpense(getExpense() + getDayPrice());
+    }
+
+    public void checkOut() {
+        if (isAfterCheckOutHour()) {
+            reducePrice();
+        }
+        setPaid(Boolean.TRUE);
+    }
+
+    private void reducePrice() {
+        setExpense(getExpense() - (getDayPrice() / 2));
+    }
+
+    private Boolean isAfterCheckOutHour() {
+        return LocalDateTime.now().getHour() > getReservation().getCheckOutHour();
+    }
+
     private Double getDayPrice() {
         Set<DayOfWeek> weekend = Set.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
         if (weekend.contains(LocalDateTime.now().getDayOfWeek())) {
@@ -68,10 +87,6 @@ public class RoomReservation {
         }
         log.info("Week day, setting expense to R$ {}", WEEK_EXPENSE);
         return WEEK_EXPENSE;
-    }
-
-    public void addExpenseToTheDay() {
-        setExpense(getExpense() + getDayPrice());
     }
 
 }

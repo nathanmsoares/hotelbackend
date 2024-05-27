@@ -10,10 +10,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Slf4j
-public class Reservation {
+public class Reservation extends AbstractAggregateRoot<Reservation> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reservation_seq")
@@ -53,18 +54,34 @@ public class Reservation {
     @Column(name = "check_out")
     private LocalDateTime checkOut;
 
+    @Column(name = "check_out_hour")
+    @NotNull
+    private final Integer checkOutHour = 12;
+
+    @Column(name = "check_in_hour")
+    @NotNull
+    private final Integer checkInHour = 14;
+
     @Column(name = "created_time")
     @NotNull
     private final Instant createdTime = Instant.now();
+
+    public Collection<Object> domainEvents() {
+        return super.domainEvents();
+    }
 
     public void checkInHotel() {
         isCheckedIn();
         isRoomReservationPresent();
         LocalDateTime checkIn = LocalDateTime.now();
         log.info("Checking In on Reservation id {}", getId());
-        isBefore14(checkIn);
+        isCheckInAllowed(checkIn);
         setCheckIn(checkIn);
         log.info("Checked In on Reservation id {} at {}", getId(), getCheckIn());
+    }
+
+    public void checkOut() {
+
     }
 
     private void isCheckedIn() {
@@ -73,11 +90,10 @@ public class Reservation {
         }
     }
 
-    private void isBefore14(LocalDateTime checkIn) {
-        LocalDateTime todayAt14 = LocalDateTime.now().toLocalDate().atTime(LocalTime.of(14, 0));
-        if (checkIn.isBefore(todayAt14)) {
-            log.error("Tried to Check-In before 14:00 hours");
-            throw new CheckInNotAllowedException("Antes das 14:00 não é possivel realizar o Check-In");
+    private void isCheckInAllowed(LocalDateTime checkIn) {
+        if (checkIn.getHour() < getCheckInHour()) {
+            log.error("Tried to Check-In before {}:00 hours", getCheckInHour());
+            throw new CheckInNotAllowedException("Não é possivel realizar o Check-In neste horário");
         }
     }
 

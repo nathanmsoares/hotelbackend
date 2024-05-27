@@ -12,17 +12,18 @@ import br.com.nathan.hotel.core.repository.ReservationRepository;
 import br.com.nathan.hotel.core.repository.RoomRepository;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import br.com.nathan.hotel.core.usecase.CreateReservationUC;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import net.javacrumbs.shedlock.spring.annotation.EnableSchedulerLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.TimeZone;
 
+@EnableScheduling
+@EnableSchedulerLock(defaultLockAtMostFor = "PT30S")
 @SpringBootApplication
 public class HotelApplication implements CommandLineRunner {
 

@@ -19,4 +19,6 @@ public interface RoomReservationRepository {
 
     List<RoomReservation> saveAllRoomReservation(List<RoomReservation> roomReservationList);
 
+    List<RoomReservation> findAllByReservationId(Long id);
+
 }

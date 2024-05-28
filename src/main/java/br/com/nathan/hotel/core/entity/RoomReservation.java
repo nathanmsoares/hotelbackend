@@ -1,5 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
+import br.com.nathan.hotel.core.dto.RoomReservationDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -70,6 +71,15 @@ public class RoomReservation {
             reducePrice();
         }
         setClosed(Boolean.TRUE);
+    }
+
+    public RoomReservationDTO toDTO() {
+        return RoomReservationDTO.builder()
+                .id(getId())
+                .reservation(getReservation().toDTO())
+                .room(getRoom().toDTO())
+
+                .build();
     }
 
     private Boolean isCheckInCheckOutSameDay() {

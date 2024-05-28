@@ -17,11 +17,11 @@ public class ReservationDTO {
 
     private Long id;
 
-    private List<Guest> guestList;
+    private List<GuestDTO> guestList;
 
-    private List<Parking> parkingList;
+    private List<ParkingDTO> parkingList;
 
-    private List<RoomReservation> roomReservationList;
+    private List<RoomReservationDTO> roomReservationList;
 
     private LocalDateTime checkIn;
 

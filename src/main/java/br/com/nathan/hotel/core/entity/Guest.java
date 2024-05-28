@@ -50,6 +50,7 @@ public class Guest {
                 .name(getName())
                 .telephone(getTelephone())
                 .cpf(getCpf())
+                .createdTime(getCreatedTime())
                 .build();
     }
 

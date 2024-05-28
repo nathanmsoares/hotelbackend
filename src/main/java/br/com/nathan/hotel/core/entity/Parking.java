@@ -95,7 +95,7 @@ public class Parking {
     public ParkingDTO toDTO() {
         return ParkingDTO.builder()
                 .id(getId())
-                .reservation(getReservation())
+                .reservation(getReservation().toDTO())
                 .closed(getClosed())
                 .createdTime(getCreatedTime())
                 .expense(getExpense())

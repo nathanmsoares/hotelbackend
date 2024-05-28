@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.Instant;
+
 @Builder
 @Getter
 public class GuestDTO {
@@ -19,6 +21,8 @@ public class GuestDTO {
 
     @NotEmpty
     private String cpf;
+
+    private Instant createdTime;
 
     public Guest toEntity() {
         return Guest.builder()

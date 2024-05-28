@@ -22,4 +22,6 @@ public interface ParkingRepository {
 
     List<Parking> findAllByClosedAndReservationCheckInIsNotNull(Boolean closed);
 
+    List<Parking> findAllByReservationId(Long reservationId);
+
 }

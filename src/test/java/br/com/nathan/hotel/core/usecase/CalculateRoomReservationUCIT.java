@@ -11,11 +11,14 @@ import br.com.nathan.hotel.core.repository.ReservationRepository;
 import br.com.nathan.hotel.core.repository.RoomRepository;
 import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.event.RecordApplicationEvents;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -77,13 +80,17 @@ public class CalculateRoomReservationUCIT {
     @DisplayName("Should add values to expense")
     public void addRoomReservationExpensesOnWeekDay() {
         Reservation reservationFound = reservationRepository.findById(reservation.getId()).get();
-        reservationFound.checkInHotel();
-        reservationRepository.save(reservationFound);
-        List<RoomReservation> roomReservationList = roomReservationRepository.findAllByClosedAndReservationCheckInIsNotNull(Boolean.FALSE);
-        calculateRoomReservationUC.execute();
-        Assertions.assertTrue(roomReservationList.stream().noneMatch(
-                roomReservation -> roomReservationRepository.findById(roomReservation.getId()).get().getExpense()
-                        .equals(roomReservation.getExpense())
-        ));
+        LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
+        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedStatic.when(LocalDateTime::now).thenReturn(today);
+            reservationFound.checkInHotel();
+            reservationRepository.save(reservationFound);
+            List<RoomReservation> roomReservationList = roomReservationRepository.findAllByClosedAndReservationCheckInIsNotNull(Boolean.FALSE);
+            calculateRoomReservationUC.execute();
+            Assertions.assertTrue(roomReservationList.stream().noneMatch(
+                    roomReservation -> roomReservationRepository.findById(roomReservation.getId()).get().getExpense()
+                            .equals(roomReservation.getExpense())
+            ));
+        }
     }
 }

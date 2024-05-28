@@ -2,6 +2,7 @@ package br.com.nathan.hotel.core.usecase;
 
 import br.com.nathan.hotel.core.dto.ParkingDTO;
 import br.com.nathan.hotel.core.entity.Parking;
+import br.com.nathan.hotel.core.exception.ParkingNotFoundException;
 import br.com.nathan.hotel.core.exception.ReservationNotFoundException;
 import br.com.nathan.hotel.core.repository.ParkingRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class FindParkingUC {
         log.info("Seaching for Parking id {}", id);
         Optional<Parking> parkingOptional = repository.findById(id);
         Parking parking =
-                parkingOptional.orElseThrow(() -> new ReservationNotFoundException("Estacionamento não encontrado"));
+                parkingOptional.orElseThrow(() -> new ParkingNotFoundException("Estacionamento não encontrado"));
         return parking.toDTO();
     }
 }

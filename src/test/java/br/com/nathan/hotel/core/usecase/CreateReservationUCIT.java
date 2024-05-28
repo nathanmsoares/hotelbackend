@@ -5,8 +5,8 @@ import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
 import br.com.nathan.hotel.core.dto.command.CreateReservationCommand;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Reservation;
-import br.com.nathan.hotel.core.repository.GuestRepository;
-import br.com.nathan.hotel.core.repository.ReservationRepository;
+import br.com.nathan.hotel.core.entity.Room;
+import br.com.nathan.hotel.core.repository.*;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -32,20 +32,36 @@ public class CreateReservationUCIT {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private RoomReservationRepository roomReservationRepository;
+
+    @Autowired
+    private ParkingRepository parkingRepository;
+
     @AfterEach
     public void tearDown() {
+        parkingRepository.deleteAll();
+        roomReservationRepository.deleteAll();
         reservationRepository.deleteAll();
         guestRepository.deleteAll();
     }
 
     @Test
-    @DisplayName("Should create a Reservation")
+    @DisplayName("Should create a Reservation without Parking")
     @Transactional
     public void createReservation() {
         CreateGuestCommand createGuestCommand =
                 new CreateGuestCommand("name", "+554799999999", "100999999-20");
         Guest guest = guestRepository.save(createGuestCommand.toEntity());
-        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest));
+        Room room = Room.builder()
+                .number(10)
+                .floor(99)
+                .build();
+        room = roomRepository.save(room);
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.FALSE, room);
         Reservation reservation = createReservationUC.execute(createReservationCommand);
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
@@ -53,6 +69,35 @@ public class CreateReservationUCIT {
 
         reservation = reservationOptional.get();
         Assertions.assertEquals(guest, reservation.getGuestList().get(0));
+        Assertions.assertEquals(1,
+                roomReservationRepository.findAllByReservationId(reservation.getId()).size());
+        Assertions.assertTrue(parkingRepository.findAllByReservationId(reservation.getId()).isEmpty());
+    }
+
+    @Test
+    @DisplayName("Should create a Reservation with Parking")
+    @Transactional
+    public void createReservationWithParking() {
+        CreateGuestCommand createGuestCommand =
+                new CreateGuestCommand("name", "+554799999999", "100999999-20");
+        Guest guest = guestRepository.save(createGuestCommand.toEntity());
+        Room room = Room.builder()
+                .number(10)
+                .floor(99)
+                .build();
+        room = roomRepository.save(room);
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.TRUE, room);
+        Reservation reservation = createReservationUC.execute(createReservationCommand);
+
+        Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
+        Assertions.assertTrue(reservationOptional.isPresent());
+
+        reservation = reservationOptional.get();
+        Assertions.assertEquals(guest, reservation.getGuestList().get(0));
+        Assertions.assertEquals(1,
+                roomReservationRepository.findAllByReservationId(reservation.getId()).size());
+        Assertions.assertEquals(1,
+                parkingRepository.findAllByReservationId(reservation.getId()).size());
     }
 
 }

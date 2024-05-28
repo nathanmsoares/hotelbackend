@@ -1,5 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
+import br.com.nathan.hotel.core.dto.RoomDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -33,8 +34,33 @@ public class Room {
     @Column(name = "number")
     private Integer number;
 
+    @OneToOne(mappedBy = "room")
+    private RoomReservation roomReservation;
+
+    @Column(name = "taken")
+    @Builder.Default
+    private Boolean taken = Boolean.FALSE;
+
     @NotNull
     @Column(name = "created_time")
     private final Instant createdTime = Instant.now();
+
+    public void takeRoom() {
+        setTaken(Boolean.TRUE);
+    }
+
+    public void clearRoom() {
+        setTaken(Boolean.FALSE);
+    }
+
+    public RoomDTO toDTO() {
+        return RoomDTO.builder()
+                .roomReservation(roomReservation.toDTO())
+                .number(getNumber())
+                .floor(getFloor())
+                .id(getId())
+                .createdTime(getCreatedTime())
+                .build();
+    }
 
 }

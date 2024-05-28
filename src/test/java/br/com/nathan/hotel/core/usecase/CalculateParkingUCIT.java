@@ -11,10 +11,13 @@ import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.entity.Room;
 import br.com.nathan.hotel.core.repository.*;
 import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -44,14 +47,18 @@ public class CalculateParkingUCIT {
         CreateGuestCommand createGuestCommand =
                 new CreateGuestCommand("name", "+554799999999", "100999999-20");
         Guest guest = guestRepository.save(createGuestCommand.toEntity());
-        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest));
-        Reservation reservation = reservationRepository.save(createReservationCommand.toEntity());
         Room room = roomRepository.saveAndFlush(Room.builder().number(10).floor(99).build());
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.FALSE, room);
+        Reservation reservation = reservationRepository.save(createReservationCommand.toEntity());
         CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
         roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
         parkingRepository.save(new CreateParkingCommand(reservation).toEntity());
         reservation = reservationRepository.findById(reservation.getId()).get();
-        reservation.checkInHotel();
+        LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
+        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedStatic.when(LocalDateTime::now).thenReturn(today);
+            reservation.checkInHotel();
+        }
         reservationRepository.save(reservation);
     }
 

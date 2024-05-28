@@ -5,7 +5,11 @@ import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RoomReservationJPARepository extends RoomReservationRepository, JpaRepository<RoomReservation, Long> {
+
+    List<RoomReservation> findAllByPaid(Boolean paid);
 
 }

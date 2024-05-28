@@ -2,6 +2,7 @@ package br.com.nathan.hotel.core.repository;
 
 import br.com.nathan.hotel.core.entity.RoomReservation;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RoomReservationRepository {
@@ -13,4 +14,9 @@ public interface RoomReservationRepository {
     void deleteAll();
 
     Optional<RoomReservation> findById(Long id);
+
+    List<RoomReservation> findAllByPaid(Boolean paid);
+
+    List<RoomReservation> saveAll(Iterable<RoomReservation> entities);
+
 }

@@ -7,4 +7,7 @@ public interface RoomRepository {
     Room save(Room room);
 
     Room saveAndFlush(Room room);
+
+    void deleteAll();
+
 }

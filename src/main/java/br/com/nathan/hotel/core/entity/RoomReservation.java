@@ -56,19 +56,22 @@ public class RoomReservation {
 
     public void setExpenseFirstDay() {
         if(Objects.isNull(expense)) {
-            if (isWeekend()) {
-                log.info("Weekend day, setting expense to R$ {}", WEEKEND_EXPENSE);
-                expense = WEEKEND_EXPENSE;
-                return;
-            }
-            log.info("Week day, setting expense to R$ {}", WEEK_EXPENSE);
-            expense = WEEK_EXPENSE;
+            setExpense(getDayPrice());
         }
     }
 
-    public boolean isWeekend() {
-        Set<DayOfWeek> weekendDays = Set.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
-        return weekendDays.contains(LocalDateTime.now().getDayOfWeek());
+    private Double getDayPrice() {
+        Set<DayOfWeek> weekend = Set.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY);
+        if (weekend.contains(LocalDateTime.now().getDayOfWeek())) {
+            log.info("Weekend day, setting expense to R$ {}", WEEKEND_EXPENSE);
+            return WEEKEND_EXPENSE;
+        }
+        log.info("Week day, setting expense to R$ {}", WEEK_EXPENSE);
+        return WEEK_EXPENSE;
+    }
+
+    public void addExpenseToTheDay() {
+        setExpense(getExpense() + getDayPrice());
     }
 
 }

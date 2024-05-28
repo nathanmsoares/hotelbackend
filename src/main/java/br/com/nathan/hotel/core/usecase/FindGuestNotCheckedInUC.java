@@ -19,7 +19,7 @@ public class FindGuestNotCheckedInUC {
     public List<GuestDTO> findGuests(String field) {
         log.info("Finding Guests who has not checked in");
         return guestRepository
-                .findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckInIsNull(field, field, field).stream().map(
+                .findAllNotCheckIn(field).stream().map(
                         Guest::toDTO
                 ).toList();
     }

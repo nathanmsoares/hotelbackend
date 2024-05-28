@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.util.List;
 
 @Builder
 @Getter
@@ -18,7 +19,7 @@ public class RoomDTO {
     @Positive
     private Integer number;
 
-    private RoomReservationDTO roomReservation;
+    private List<RoomReservationDTO> roomReservationList;
 
     private Boolean taken;
 

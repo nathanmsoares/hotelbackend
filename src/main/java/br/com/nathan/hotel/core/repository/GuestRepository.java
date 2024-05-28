@@ -13,11 +13,14 @@ public interface GuestRepository {
 
     List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContaining(String name, String telephone, String cpf);
 
-    List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckOutIsNullAndReservationListCheckInIsNotNull(String name, String telephone, String cpf);
-
-    List<Guest> findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckInIsNull(String name, String telephone, String cpf);
+    List<Guest> findAllNotCheckIn(String field);
 
     void deleteAll();
 
     Optional<Guest> findById(Long id);
+
+    List<Guest> findAllGuestsByFieldAndActiveReservation(String field);
+
+
+
 }

@@ -19,7 +19,7 @@ public class FindGuestInHotelUC {
     public List<GuestDTO> findGuests(String field) {
         log.info("Finding Guests still in Hotel");
         return guestRepository
-                .findAllByNameContainingOrTelephoneContainingOrCpfContainingAndReservationListCheckOutIsNullAndReservationListCheckInIsNotNull(field, field, field).stream().map(
+                .findAllGuestsByFieldAndActiveReservation(field).stream().map(
                         Guest::toDTO
                 ).toList();
     }

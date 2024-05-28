@@ -34,7 +34,7 @@ public class RoomReservation {
     @Column(name = "room_reservation_id")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @NotNull
     @JoinColumn(name = "room_id")
     private Room room;

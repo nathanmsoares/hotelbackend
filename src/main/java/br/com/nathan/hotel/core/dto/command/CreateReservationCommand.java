@@ -1,7 +1,6 @@
 package br.com.nathan.hotel.core.dto.command;
 
 import br.com.nathan.hotel.core.dto.GuestDTO;
-import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.entity.Room;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,7 +17,7 @@ import java.util.List;
 public class CreateReservationCommand {
 
     @NotEmpty
-    private List<GuestDTO> guestListDTO;
+    private List<GuestDTO> guestList;
 
     @NotNull
     private Boolean parkingRequested;
@@ -27,9 +26,9 @@ public class CreateReservationCommand {
     private Room room;
 
     public Reservation toEntity() {
-        log.info("Creating Reservation on Guest Ids {}", guestListDTO.stream().map(GuestDTO::getId).toList());
+        log.info("Creating Reservation on Guest Ids {}", guestList.stream().map(GuestDTO::getId).toList());
         return Reservation.builder()
-                .guestList(guestListDTO.stream().map(GuestDTO::toEntity).toList())
+                .guestList(guestList.stream().map(GuestDTO::toEntity).toList())
                 .build();
     }
 }

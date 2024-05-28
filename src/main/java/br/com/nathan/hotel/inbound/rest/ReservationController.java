@@ -37,7 +37,7 @@ public record ReservationController(CreateReservationUC createReservationUC,
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(path = "checkOut/{reservationId}")
+    @GetMapping(path = "{reservationId}")
     public ResponseEntity<ReservationDTO> findById(@PathVariable("reservationId") Long reservationId) {
         return new ResponseEntity<>(findReservationUC.findById(reservationId), HttpStatus.OK);
     }

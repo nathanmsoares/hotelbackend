@@ -1,6 +1,7 @@
 package br.com.nathan.hotel.inbound.rest;
 
 import br.com.nathan.hotel.core.dto.EntityDTO;
+import br.com.nathan.hotel.core.dto.GenericFieldDTO;
 import br.com.nathan.hotel.core.dto.GuestDTO;
 import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
 import br.com.nathan.hotel.core.entity.Guest;
@@ -10,7 +11,10 @@ import br.com.nathan.hotel.core.usecase.FindGuestInHotelUC;
 import br.com.nathan.hotel.core.usecase.FindGuestNotCheckedInUC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -27,19 +31,19 @@ public record GuestController(CreateGuestUC createGuestUC,
         return new ResponseEntity<>(EntityDTO.of(guest.getId()), HttpStatus.CREATED);
     }
 
-    @GetMapping("/generic/{field}")
-    public ResponseEntity<List<GuestDTO>> findGenericGuests(@RequestParam(value = "field") String field) {
-        return new ResponseEntity<>(findGuestGenericUC.findGuests(field), HttpStatus.OK);
+    @PostMapping("/generic/")
+    public ResponseEntity<List<GuestDTO>> findGenericGuests(@RequestBody GenericFieldDTO genericFieldDTO) {
+        return new ResponseEntity<>(findGuestGenericUC.findGuests(genericFieldDTO.getField()), HttpStatus.OK);
     }
 
-    @GetMapping("/inHotel/{field}")
-    public ResponseEntity<List<GuestDTO>> findGuestsInHotel(@RequestParam(value = "field") String field) {
-        return new ResponseEntity<>(findGuestInHotelUC.findGuests(field), HttpStatus.OK);
+    @PostMapping("/inHotel/")
+    public ResponseEntity<List<GuestDTO>> findGuestsInHotel(@RequestBody GenericFieldDTO genericFieldDTO) {
+        return new ResponseEntity<>(findGuestInHotelUC.findGuests(genericFieldDTO.getField()), HttpStatus.OK);
     }
 
-    @GetMapping("/notCheckedIn/{field}")
-    public ResponseEntity<List<GuestDTO>> findGuestsNotCheckedIn(@RequestParam(value = "field") String field) {
-        return new ResponseEntity<>(findGuestNotCheckedInUC.findGuests(field), HttpStatus.OK);
+    @PostMapping("/notCheckedIn/")
+    public ResponseEntity<List<GuestDTO>> findGuestsNotCheckedIn(@RequestBody GenericFieldDTO genericFieldDTO) {
+        return new ResponseEntity<>(findGuestNotCheckedInUC.findGuests(genericFieldDTO.getField()), HttpStatus.OK);
     }
 
 }

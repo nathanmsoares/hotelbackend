@@ -1,6 +1,7 @@
 package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.dto.RoomDTO;
+import br.com.nathan.hotel.core.exception.RoomTakenException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "room")
@@ -35,8 +37,8 @@ public class Room {
     @Column(name = "number")
     private Integer number;
 
-    @OneToOne(mappedBy = "room")
-    private RoomReservation roomReservation;
+    @OneToMany(mappedBy = "room")
+    private List<RoomReservation> roomReservationList;
 
     @Column(name = "taken")
     @Builder.Default
@@ -47,6 +49,9 @@ public class Room {
     private final Instant createdTime = Instant.now();
 
     public void takeRoom() {
+        if (getTaken()) {
+            throw new RoomTakenException("Quarto já alugado");
+        }
         setTaken(Boolean.TRUE);
     }
 
@@ -56,7 +61,7 @@ public class Room {
 
     public RoomDTO toDTO() {
         return RoomDTO.builder()
-                .roomReservation(roomReservation.toDTO())
+                .roomReservationList(roomReservationList.stream().map(RoomReservation::toDTO).toList())
                 .number(getNumber())
                 .floor(getFloor())
                 .id(getId())

@@ -3,24 +3,22 @@ package br.com.nathan.hotel.core.entity;
 import br.com.nathan.hotel.core.dto.ReservationDTO;
 import br.com.nathan.hotel.core.dto.event.CheckInParkingExpenseEvent;
 import br.com.nathan.hotel.core.dto.event.CheckInRoomReservationExpenseEvent;
+import br.com.nathan.hotel.core.dto.event.CheckOutReservationEvent;
 import br.com.nathan.hotel.core.exception.CheckInNotAllowedException;
 import br.com.nathan.hotel.core.exception.RoomReservationEmptyException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "reservation")
@@ -29,6 +27,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Slf4j
+@EqualsAndHashCode(callSuper=false)
 public class Reservation extends AbstractAggregateRoot<Reservation> {
 
     @Id
@@ -46,13 +45,11 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
     @NotEmpty
     private List<Guest> guestList;
 
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<Parking> parkingList = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "reservation")
+    private Parking parking;
 
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<RoomReservation> roomReservationList = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "reservation")
+    private RoomReservation roomReservation;
 
     @Column(name = "check_in")
     private LocalDateTime checkIn;
@@ -86,8 +83,8 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
         log.info("Checking In on Reservation id {}", getId());
         isCheckInAllowed(checkIn);
 
-        registerEvent(new CheckInRoomReservationExpenseEvent(getRoomReservationList()));
-        registerEvent(new CheckInParkingExpenseEvent(getParkingList()));
+        sendCheckInRoomReservationExpenseEvent();
+        sendCheckInParkingExpenseEvent();
 
         setCheckIn(checkIn);
         log.info("Checked In on Reservation id {} at {}", getId(), getCheckIn());
@@ -95,17 +92,23 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
 
     public void checkOut() {
         if (Objects.isNull(getCheckOut())) {
-            getParkingList().forEach(Parking::checkOut);
-            getRoomReservationList().forEach(RoomReservation::checkOut);
+            registerEvent(new CheckOutReservationEvent(getId()));
             setCheckOut(LocalDateTime.now());
+        }
+    }
+
+    public void setTotalCostAfterCheckOut() {
+        if (Objects.nonNull(getCheckOut())) {
             setTotalCost(generateTotalCost());
         }
     }
 
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
     private Double generateTotalCost() {
-        Double parkingCost = getParkingList().stream().mapToDouble(Parking::getExpense).sum();
-        Double roomReservationCost = getRoomReservationList().stream().mapToDouble(RoomReservation::getExpense).sum();
-        return parkingCost + roomReservationCost;
+        return getParking().getExpense() + roomReservation.getExpense();
     }
 
     private void isCheckedIn() {
@@ -123,8 +126,18 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
 
     private void isRoomReservationPresent() {
         log.info("Checking if Reservation id {} has any RoomReservation", getId());
-        if (Objects.isNull(getRoomReservationList()) || getRoomReservationList().isEmpty()) {
+        if (Objects.isNull(getRoomReservation())) {
             throw new RoomReservationEmptyException("Não há Reservas de quartos para a Reserva");
+        }
+    }
+
+    private void sendCheckInRoomReservationExpenseEvent() {
+        registerEvent(new CheckInRoomReservationExpenseEvent(getRoomReservation()));
+    }
+
+    private void sendCheckInParkingExpenseEvent() {
+        if (Objects.nonNull(getParking())) {
+            registerEvent(new CheckInParkingExpenseEvent(getParking()));
         }
     }
 
@@ -134,8 +147,8 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
                 .totalCost(getTotalCost())
                 .checkOut(getCheckOut())
                 .checkIn(getCheckIn())
-                .roomReservationList(getRoomReservationList().stream().map(RoomReservation::toDTO).toList())
-                .parkingList(getParkingList().stream().map(Parking::toDTO).toList())
+                .roomReservation(getRoomReservation().toDTO())
+                .parking(getParking().toDTO())
                 .guestList(getGuestList().stream().map(Guest::toDTO).toList())
                 .checkInHour(getCheckInHour())
                 .checkOutHour(getCheckOutHour())

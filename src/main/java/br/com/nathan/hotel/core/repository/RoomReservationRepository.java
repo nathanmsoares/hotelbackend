@@ -21,4 +21,6 @@ public interface RoomReservationRepository {
 
     List<RoomReservation> findAllByReservationId(Long id);
 
+    List<RoomReservation> findAll();
+
 }

@@ -12,6 +12,8 @@ public interface ParkingRepository {
 
     Parking save(Parking parking);
 
+    Parking saveAndFlush(Parking parking);
+
     void deleteAll();
 
     Optional<Parking> findById(Long id);

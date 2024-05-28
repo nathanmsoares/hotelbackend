@@ -14,6 +14,6 @@ public class CheckInParkingExpenseEventListener implements ApplicationListener<C
 
     @Override
     public void onApplicationEvent(CheckInParkingExpenseEvent event) {
-        setParkingExpenseUC.execute(event.getParkingList());
+        setParkingExpenseUC.execute(event.getParking());
     }
 }

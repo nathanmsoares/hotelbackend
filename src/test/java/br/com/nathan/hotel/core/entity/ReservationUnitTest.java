@@ -21,7 +21,7 @@ public class ReservationUnitTest {
         Reservation reservation = Reservation.builder()
                 .id(10L)
                 .guestList(List.of(Guest.builder().id(9L).build()))
-                .roomReservationList(List.of(RoomReservation.builder().id(11L).build()))
+                .roomReservation(RoomReservation.builder().id(11L).build())
                 .build();
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
 
@@ -38,7 +38,7 @@ public class ReservationUnitTest {
         Reservation reservation = Reservation.builder()
                 .id(10L)
                 .guestList(List.of(Guest.builder().id(9L).build()))
-                .roomReservationList(List.of(RoomReservation.builder().id(11L).build()))
+                .roomReservation(RoomReservation.builder().id(11L).build())
                 .build();
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 11, 00);
 

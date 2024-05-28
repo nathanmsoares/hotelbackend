@@ -7,8 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 public class SetParkingExpenseUCUnitTest {
 
     private SetParkingExpenseUC setParkingExpenseUC;
@@ -32,14 +30,11 @@ public class SetParkingExpenseUCUnitTest {
     @Test
     @DisplayName("should set Expenses")
     public void shouldSetExpenses() {
-        Parking parkingFirst = Parking.builder().id(10L).build();
-        Parking parkingSecond = Parking.builder().id(11L).build();
-        Assertions.assertNull(parkingFirst.getExpense());
-        Assertions.assertNull(parkingSecond.getExpense());
-        setParkingExpenseUC.execute(List.of(parkingFirst, parkingSecond));
-        Assertions.assertNotNull(parkingFirst.getExpense());
-        Assertions.assertNotNull(parkingSecond.getExpense());
-        Mockito.verify(parkingRepository, Mockito.times(1)).saveAllParking(Mockito.anyList());
+        Parking parking = Parking.builder().id(10L).build();
+        Assertions.assertNull(parking.getExpense());
+        setParkingExpenseUC.execute(parking);
+        Assertions.assertNotNull(parking.getExpense());
+        Mockito.verify(parkingRepository, Mockito.times(1)).save(Mockito.any());
     }
 
 }

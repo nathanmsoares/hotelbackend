@@ -15,9 +15,9 @@ public class SetRoomReservationExpenseUC {
 
     private final RoomReservationRepository roomReservationRepository;
 
-    public void execute(List<RoomReservation> roomReservationList) {
-        roomReservationList.forEach(RoomReservation::setExpenseFirstDay);
-        roomReservationRepository.saveAllRoomReservation(roomReservationList);
+    public void execute(RoomReservation roomReservation) {
+        roomReservation.setExpenseFirstDay();
+        roomReservationRepository.save(roomReservation);
     }
 
 }

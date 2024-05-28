@@ -1,5 +1,6 @@
 package br.com.nathan.hotel.core.dto.command;
 
+import br.com.nathan.hotel.core.dto.GuestDTO;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.entity.Room;
@@ -14,9 +15,9 @@ public class CreateReservationCommandUnitTest {
     @Test
     @DisplayName("Should create Reservation")
     public void createReservation() {
-        CreateReservationCommand command = new CreateReservationCommand(List.of(new Guest()), Boolean.FALSE, new Room());
+        CreateReservationCommand command = new CreateReservationCommand(List.of(GuestDTO.builder().id(10L).build()), Boolean.FALSE, new Room());
         Reservation reservation = command.toEntity();
-        Assertions.assertEquals(command.getGuestList(), reservation.getGuestList());
+        Assertions.assertEquals(command.getGuestListDTO().get(0).getId(), reservation.getGuestList().get(0).getId());
     }
 
 }

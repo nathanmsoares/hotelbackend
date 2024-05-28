@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -42,7 +41,7 @@ public class CheckInReservationUCUnitTest {
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
         Reservation reservation = Reservation.builder()
                 .id(10L)
-                .roomReservationList(List.of(new RoomReservation()))
+                .roomReservation(new RoomReservation())
                 .build();
         try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
             mockedStatic.when(LocalDateTime::now).thenReturn(today);
@@ -58,7 +57,7 @@ public class CheckInReservationUCUnitTest {
     public void shouldThrowCheckIn() {
         Reservation reservation = Reservation.builder()
                 .id(10L)
-                .roomReservationList(List.of(new RoomReservation()))
+                .roomReservation(new RoomReservation())
                 .build();
         try {
             checkInReservationUC.execute(11L);

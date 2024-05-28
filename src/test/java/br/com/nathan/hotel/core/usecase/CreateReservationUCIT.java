@@ -61,14 +61,14 @@ public class CreateReservationUCIT {
                 .floor(99)
                 .build();
         room = roomRepository.save(room);
-        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.FALSE, room);
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest.toDTO()), Boolean.FALSE, room);
         Reservation reservation = createReservationUC.execute(createReservationCommand);
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
         Assertions.assertTrue(reservationOptional.isPresent());
 
         reservation = reservationOptional.get();
-        Assertions.assertEquals(guest, reservation.getGuestList().get(0));
+        Assertions.assertEquals(guest.getId(), reservation.getGuestList().get(0).getId());
         Assertions.assertEquals(1,
                 roomReservationRepository.findAllByReservationId(reservation.getId()).size());
         Assertions.assertTrue(parkingRepository.findAllByReservationId(reservation.getId()).isEmpty());
@@ -86,14 +86,14 @@ public class CreateReservationUCIT {
                 .floor(99)
                 .build();
         room = roomRepository.save(room);
-        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.TRUE, room);
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest.toDTO()), Boolean.TRUE, room);
         Reservation reservation = createReservationUC.execute(createReservationCommand);
 
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservation.getId());
         Assertions.assertTrue(reservationOptional.isPresent());
 
         reservation = reservationOptional.get();
-        Assertions.assertEquals(guest, reservation.getGuestList().get(0));
+        Assertions.assertEquals(guest.getId(), reservation.getGuestList().get(0).getId());
         Assertions.assertEquals(1,
                 roomReservationRepository.findAllByReservationId(reservation.getId()).size());
         Assertions.assertEquals(1,

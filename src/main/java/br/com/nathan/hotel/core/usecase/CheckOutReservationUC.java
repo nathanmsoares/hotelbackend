@@ -24,5 +24,9 @@ public class CheckOutReservationUC {
                 reservationOptional.orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
         reservation.checkOut();
         reservationRepository.save(reservation);
+        reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
+        reservation.setTotalCostAfterCheckOut();
+        reservationRepository.save(reservation);
     }
 }

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -15,9 +16,9 @@ public class SetParkingExpenseUC {
 
     private final ParkingRepository parkingRepository;
 
-    public void execute(List<Parking> parkingList) {
-        parkingList.forEach(Parking::setExpenseFirstDay);
-        parkingRepository.saveAllParking(parkingList);
+    public void execute(Parking parking) {
+        parking.setExpenseFirstDay();
+        parkingRepository.save(parking);
     }
 
 }

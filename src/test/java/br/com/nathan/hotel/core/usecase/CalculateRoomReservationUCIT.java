@@ -1,7 +1,7 @@
 package br.com.nathan.hotel.core.usecase;
 
 import br.com.nathan.hotel.config.TestHotelConfiguration;
-import br.com.nathan.hotel.core.dto.command.CreateRoomReservationCommand;
+import br.com.nathan.hotel.core.dto.command.CreateReservationCommand;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.entity.Room;
@@ -19,7 +19,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.event.RecordApplicationEvents;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -42,6 +41,9 @@ public class CalculateRoomReservationUCIT {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private CreateReservationUC createReservationUC;
+
     private Reservation reservation;
 
     @BeforeEach
@@ -59,13 +61,7 @@ public class CalculateRoomReservationUCIT {
                 .build();
         guest = guestRepository.saveAndFlush(guest);
 
-        Reservation reservation = Reservation.builder()
-                .guestList(Arrays.asList(guest))
-                .build();
-        this.reservation = reservationRepository.saveAndFlush(reservation);
-
-        CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(this.reservation, room);
-        roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
+        reservation = createReservationUC.execute(new CreateReservationCommand(List.of(guest.toDTO()), Boolean.FALSE, room));
     }
 
     @AfterEach

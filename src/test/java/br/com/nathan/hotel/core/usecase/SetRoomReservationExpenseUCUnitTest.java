@@ -7,8 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-
 public class SetRoomReservationExpenseUCUnitTest {
 
     private SetRoomReservationExpenseUC setRoomReservationExpenseUC;
@@ -32,13 +30,10 @@ public class SetRoomReservationExpenseUCUnitTest {
     @Test
     @DisplayName("should set Expenses")
     public void shouldSetExpenses() {
-        RoomReservation roomReservationFirst = RoomReservation.builder().id(10L).build();
-        RoomReservation roomReservationSecond = RoomReservation.builder().id(11L).build();
-        Assertions.assertNull(roomReservationFirst.getExpense());
-        Assertions.assertNull(roomReservationSecond.getExpense());
-        setRoomReservationExpenseUC.execute(List.of(roomReservationFirst, roomReservationSecond));
-        Assertions.assertNotNull(roomReservationFirst.getExpense());
-        Assertions.assertNotNull(roomReservationSecond.getExpense());
-        Mockito.verify(roomReservationRepository, Mockito.times(1)).saveAllRoomReservation(Mockito.anyList());
+        RoomReservation roomReservation = RoomReservation.builder().id(10L).build();
+        Assertions.assertNull(roomReservation.getExpense());
+        setRoomReservationExpenseUC.execute(roomReservation);
+        Assertions.assertNotNull(roomReservation.getExpense());
+        Mockito.verify(roomReservationRepository, Mockito.times(1)).save(Mockito.any());
     }
 }

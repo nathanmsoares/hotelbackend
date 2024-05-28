@@ -27,7 +27,7 @@ public class CreateReservationCommand {
     private Room room;
 
     public Reservation toEntity() {
-        log.info("Creating Reservation on Guest Ids {}", guestListDTO.stream().map(Guest::getId).toList());
+        log.info("Creating Reservation on Guest Ids {}", guestListDTO.stream().map(GuestDTO::getId).toList());
         return Reservation.builder()
                 .guestList(guestListDTO.stream().map(GuestDTO::toEntity).toList())
                 .build();

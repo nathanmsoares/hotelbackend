@@ -14,6 +14,6 @@ public class CheckInRoomReservationExpenseEventListener implements ApplicationLi
 
     @Override
     public void onApplicationEvent(CheckInRoomReservationExpenseEvent event) {
-        setRoomReservationExpenseUC.execute(event.getRoomReservationList());
+        setRoomReservationExpenseUC.execute(event.getRoomReservation());
     }
 }

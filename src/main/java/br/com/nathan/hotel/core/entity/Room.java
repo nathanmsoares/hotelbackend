@@ -22,6 +22,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_seq")
     @SequenceGenerator(name = "room_seq", sequenceName = "room_seq", allocationSize = 1)
+    @Column(name = "room_id")
     private Long id;
 
     @NotNull

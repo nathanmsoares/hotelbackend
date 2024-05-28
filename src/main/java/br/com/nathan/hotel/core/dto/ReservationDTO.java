@@ -19,9 +19,9 @@ public class ReservationDTO {
 
     private List<GuestDTO> guestList;
 
-    private List<ParkingDTO> parkingList;
+    private ParkingDTO parking;
 
-    private List<RoomReservationDTO> roomReservationList;
+    private RoomReservationDTO roomReservation;
 
     private LocalDateTime checkIn;
 

@@ -2,17 +2,12 @@ package br.com.nathan.hotel.core.usecase;
 
 import br.com.nathan.hotel.config.TestHotelConfiguration;
 import br.com.nathan.hotel.core.dto.command.CreateGuestCommand;
-import br.com.nathan.hotel.core.dto.command.CreateParkingCommand;
 import br.com.nathan.hotel.core.dto.command.CreateReservationCommand;
-import br.com.nathan.hotel.core.dto.command.CreateRoomReservationCommand;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Parking;
-import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.entity.Room;
 import br.com.nathan.hotel.core.repository.*;
 import org.junit.jupiter.api.*;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,24 +37,18 @@ public class CalculateParkingUCIT {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private CreateReservationUC createReservationUC;
+
     @BeforeEach
     public void setup() {
         CreateGuestCommand createGuestCommand =
                 new CreateGuestCommand("name", "+554799999999", "100999999-20");
         Guest guest = guestRepository.save(createGuestCommand.toEntity());
         Room room = roomRepository.saveAndFlush(Room.builder().number(10).floor(99).build());
-        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest), Boolean.FALSE, room);
-        Reservation reservation = reservationRepository.save(createReservationCommand.toEntity());
-        CreateRoomReservationCommand createRoomReservationCommand = new CreateRoomReservationCommand(reservation, room);
-        roomReservationRepository.saveAndFlush(createRoomReservationCommand.toEntity());
-        parkingRepository.save(new CreateParkingCommand(reservation).toEntity());
-        reservation = reservationRepository.findById(reservation.getId()).get();
+        CreateReservationCommand createReservationCommand = new CreateReservationCommand(List.of(guest.toDTO()), Boolean.TRUE, room);
         LocalDateTime today = LocalDateTime.of(2024, 5, 27, 20, 00);
-        try (MockedStatic<LocalDateTime> mockedStatic = Mockito.mockStatic(LocalDateTime.class)) {
-            mockedStatic.when(LocalDateTime::now).thenReturn(today);
-            reservation.checkInHotel();
-        }
-        reservationRepository.save(reservation);
+        createReservationUC.execute(createReservationCommand);
     }
 
     @AfterEach

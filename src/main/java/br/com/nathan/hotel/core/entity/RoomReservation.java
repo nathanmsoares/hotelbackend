@@ -36,9 +36,10 @@ public class RoomReservation {
 
     @OneToOne
     @NotNull
+    @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
+    @OneToOne
     @NotNull
     @JoinColumn(name = "reservation_id")
     private Reservation reservation;

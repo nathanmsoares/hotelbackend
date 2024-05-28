@@ -33,8 +33,7 @@ public record ReservationController(CreateReservationUC createReservationUC,
 
     @PostMapping(path = "checkOut/{reservationId}")
     public ResponseEntity checkOut(@PathVariable("reservationId") Long reservationId) {
-        checkOutReservationUC.execute(reservationId);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity(checkOutReservationUC.execute(reservationId), HttpStatus.OK);
     }
 
     @GetMapping(path = "{reservationId}")

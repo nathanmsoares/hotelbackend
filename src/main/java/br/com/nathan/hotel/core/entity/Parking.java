@@ -1,7 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.dto.ParkingDTO;
-import br.com.nathan.hotel.core.dto.ReservationDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -50,6 +49,14 @@ public class Parking {
     @NotNull
     @Column(name = "created_time")
     private final Instant createdTime = Instant.now();
+
+    @Column(name = "check_out_hour")
+    @NotNull
+    private final Integer checkOutHour = 12;
+
+    @Column(name = "check_in_hour")
+    @NotNull
+    private final Integer checkInHour = 14;
 
     public void setExpenseFirstDay() {
         if (Objects.isNull(getExpense())) {

@@ -17,6 +17,7 @@ public class ClearRoomUC {
 
     private final RoomRepository roomRepository;
 
+    @Transactional
     public void execute(Long roomId) {
         Optional<Room> roomOptional = roomRepository.findById(roomId);
         Room room = roomOptional.orElseThrow(() -> new ReservationNotFoundException("Room não encontrado"));

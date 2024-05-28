@@ -6,9 +6,7 @@ import br.com.nathan.hotel.core.dto.event.CreateRoomReservationEvent;
 import br.com.nathan.hotel.core.dto.event.SetRoomTaken;
 import br.com.nathan.hotel.core.entity.Guest;
 import br.com.nathan.hotel.core.entity.Reservation;
-import br.com.nathan.hotel.core.entity.RoomReservation;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
-import br.com.nathan.hotel.core.repository.RoomReservationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +23,7 @@ public class CreateReservationUC {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    @Transactional
     public Reservation execute(CreateReservationCommand command) {
         Reservation reservation = reservationRepository.saveAndFlush(command.toEntity());
         log.info("Saved Reservation id {} on Guest Ids {}", reservation.getId(),

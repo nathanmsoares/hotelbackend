@@ -1,5 +1,6 @@
 package br.com.nathan.hotel.core.usecase;
 
+import br.com.nathan.hotel.core.dto.ReservationDTO;
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.exception.ReservationNotFoundException;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
@@ -18,7 +19,7 @@ public class CheckOutReservationUC {
     private final ReservationRepository reservationRepository;
 
     @Transactional
-    public void execute(Long reservationId) {
+    public ReservationDTO execute(Long reservationId) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
         Reservation reservation =
                 reservationOptional.orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
@@ -28,5 +29,6 @@ public class CheckOutReservationUC {
                 .orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
         reservation.setTotalCostAfterCheckOut();
         reservationRepository.save(reservation);
+        return reservationRepository.findById(reservationId).get().toDTO();
     }
 }

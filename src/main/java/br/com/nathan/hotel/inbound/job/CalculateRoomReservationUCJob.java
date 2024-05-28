@@ -1,6 +1,6 @@
 package br.com.nathan.hotel.inbound.job;
 
-import br.com.nathan.hotel.core.usecase.CalculateParkingUC;
+import br.com.nathan.hotel.core.usecase.CalculateRoomReservationUC;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
@@ -11,14 +11,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CalculateRoomReservationUCJob {
 
-    private final CalculateParkingUC calculateParkingUC;
+    private final CalculateRoomReservationUC calculateRoomReservationUC;
 
     @Transactional
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 5 * * * *")
     @SchedulerLock(name = "TaskScheduler_CalculateRoomReservationUCJob",
             lockAtLeastFor = "PT5M", lockAtMostFor = "PT15M")
     public void execute() {
-        calculateParkingUC.execute();
+        calculateRoomReservationUC.execute();
     }
-
 }

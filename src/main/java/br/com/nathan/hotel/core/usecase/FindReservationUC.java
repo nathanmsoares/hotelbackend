@@ -1,9 +1,9 @@
 package br.com.nathan.hotel.core.usecase;
 
+import br.com.nathan.hotel.core.dto.ReservationDTO;
 import br.com.nathan.hotel.core.entity.Reservation;
 import br.com.nathan.hotel.core.exception.ReservationNotFoundException;
 import br.com.nathan.hotel.core.repository.ReservationRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,16 +13,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class CheckOutReservationUC {
+public class FindReservationUC {
 
     private final ReservationRepository reservationRepository;
 
-    @Transactional
-    public void execute(Long reservationId) {
+    public ReservationDTO findById(Long reservationId) {
+        log.info("Seaching for Reservation id {}", reservationId);
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
         Reservation reservation =
                 reservationOptional.orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
-        reservation.checkOut();
-        reservationRepository.save(reservation);
+        return reservation.toDTO();
     }
 }

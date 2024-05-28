@@ -1,5 +1,6 @@
 package br.com.nathan.hotel.core.entity;
 
+import br.com.nathan.hotel.core.dto.ReservationDTO;
 import br.com.nathan.hotel.core.dto.event.CheckInParkingExpenseEvent;
 import br.com.nathan.hotel.core.dto.event.CheckInRoomReservationExpenseEvent;
 import br.com.nathan.hotel.core.exception.CheckInNotAllowedException;
@@ -59,6 +60,9 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
     @Column(name = "check_out")
     private LocalDateTime checkOut;
 
+    @Column(name = "totalCost")
+    private Double totalCost;
+
     @Column(name = "check_out_hour")
     @NotNull
     private final Integer checkOutHour = 12;
@@ -94,7 +98,14 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
             getParkingList().forEach(Parking::checkOut);
             getRoomReservationList().forEach(RoomReservation::checkOut);
             setCheckOut(LocalDateTime.now());
+            setTotalCost(generateTotalCost());
         }
+    }
+
+    private Double generateTotalCost() {
+        Double parkingCost = getParkingList().stream().mapToDouble(Parking::getExpense).sum();
+        Double roomReservationCost = getRoomReservationList().stream().mapToDouble(RoomReservation::getExpense).sum();
+        return parkingCost + roomReservationCost;
     }
 
     private void isCheckedIn() {
@@ -115,6 +126,21 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
         if (Objects.isNull(getRoomReservationList()) || getRoomReservationList().isEmpty()) {
             throw new RoomReservationEmptyException("Não há Reservas de quartos para a Reserva");
         }
+    }
+
+    public ReservationDTO toDTO() {
+        return ReservationDTO.builder()
+                .id(getId())
+                .totalCost(getTotalCost())
+                .checkOut(getCheckOut())
+                .checkIn(getCheckIn())
+                .roomReservationList(getRoomReservationList())
+                .parkingList(getParkingList())
+                .guestList(getGuestList())
+                .checkInHour(getCheckInHour())
+                .checkOutHour(getCheckOutHour())
+                .createdTime(getCreatedTime())
+                .build();
     }
 
 }

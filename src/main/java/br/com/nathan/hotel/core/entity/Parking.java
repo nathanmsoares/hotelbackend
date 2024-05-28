@@ -1,5 +1,7 @@
 package br.com.nathan.hotel.core.entity;
 
+import br.com.nathan.hotel.core.dto.ParkingDTO;
+import br.com.nathan.hotel.core.dto.ReservationDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -88,6 +90,16 @@ public class Parking {
 
     public void addExpenseToTheDay() {
         setExpense(getExpense() + getDayPrice());
+    }
+
+    public ParkingDTO toDTO() {
+        return ParkingDTO.builder()
+                .id(getId())
+                .reservation(getReservation())
+                .closed(getClosed())
+                .createdTime(getCreatedTime())
+                .expense(getExpense())
+                .build();
     }
 
 }

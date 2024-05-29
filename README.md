@@ -1,7 +1,11 @@
 # Projeto Hotel
 
 Este projeto vem a calcular a estadia do usuario
-fazer checkin, checkout e incluir hóspedes
+fazer checkin, checkout e incluir hóspedes. 
+
+Este projeto buscou utilizar clean architecture
+
+![](images/clean_arc.webp)
 
 # Configurações para iniciar o projeto
 

@@ -1,12 +1,10 @@
 package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.dto.RoomReservationDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.DayOfWeek;
@@ -42,6 +40,9 @@ public class RoomReservation {
     @OneToOne
     @NotNull
     @JoinColumn(name = "reservation_id")
+    @Getter(onMethod_ = @JsonIgnore)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Reservation reservation;
 
     @Column(name = "expense")

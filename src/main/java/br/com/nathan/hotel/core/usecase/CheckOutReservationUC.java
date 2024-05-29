@@ -19,7 +19,7 @@ public class CheckOutReservationUC {
     private final ReservationRepository reservationRepository;
 
     @Transactional
-    public ReservationDTO execute(Long reservationId) {
+    public Reservation execute(Long reservationId) {
         Optional<Reservation> reservationOptional = reservationRepository.findById(reservationId);
         Reservation reservation =
                 reservationOptional.orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
@@ -29,6 +29,6 @@ public class CheckOutReservationUC {
                 .orElseThrow(() -> new ReservationNotFoundException("Reserva não encontrada"));
         reservation.setTotalCostAfterCheckOut();
         reservationRepository.save(reservation);
-        return reservationRepository.findById(reservationId).get().toDTO();
+        return reservationRepository.findById(reservationId).get();
     }
 }

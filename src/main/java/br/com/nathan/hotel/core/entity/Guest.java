@@ -4,10 +4,7 @@ import br.com.nathan.hotel.core.dto.GuestDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -39,6 +36,8 @@ public class Guest {
     private String cpf;
 
     @ManyToMany(mappedBy = "guestList")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Reservation> reservationList;
 
     @NotNull

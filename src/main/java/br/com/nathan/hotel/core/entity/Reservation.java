@@ -6,6 +6,7 @@ import br.com.nathan.hotel.core.dto.event.CheckInRoomReservationExpenseEvent;
 import br.com.nathan.hotel.core.dto.event.CheckOutReservationEvent;
 import br.com.nathan.hotel.core.exception.CheckInNotAllowedException;
 import br.com.nathan.hotel.core.exception.RoomReservationEmptyException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "reservation")
@@ -43,12 +43,19 @@ public class Reservation extends AbstractAggregateRoot<Reservation> {
             inverseJoinColumns = @JoinColumn(name = "guest_id")
     )
     @NotEmpty
+    @Getter(onMethod_ = @JsonIgnore)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Guest> guestList;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "reservation")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "reservation")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Parking parking;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "reservation")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "reservation")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private RoomReservation roomReservation;
 
     @Column(name = "check_in")

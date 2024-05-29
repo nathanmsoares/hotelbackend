@@ -1,9 +1,5 @@
 package br.com.nathan.hotel.core.dto;
 
-import br.com.nathan.hotel.core.entity.Guest;
-import br.com.nathan.hotel.core.entity.Parking;
-import br.com.nathan.hotel.core.entity.RoomReservation;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 

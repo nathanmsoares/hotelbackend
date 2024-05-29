@@ -2,13 +2,11 @@ package br.com.nathan.hotel.core.entity;
 
 import br.com.nathan.hotel.core.dto.RoomDTO;
 import br.com.nathan.hotel.core.exception.RoomTakenException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -38,6 +36,8 @@ public class Room {
     private Integer number;
 
     @OneToMany(mappedBy = "room")
+    @Getter(onMethod_ = @JsonIgnore)
+    @ToString.Exclude
     private List<RoomReservation> roomReservationList;
 
     @Column(name = "taken")

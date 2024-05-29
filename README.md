@@ -29,6 +29,10 @@ Cuidado! Esse comando derrubará todos os containers da sua máquina.
 
 Siga as imagens abaixo.
 
+Acesse o link http://localhost:8280/ e realize o login
+
+O login e senha são nathan.soares.ns@gmail.com / nathan_teste_hotel
+
 ![](images/2024-05-28_21-24.png)
 
 ![](images/2024-05-28_21-25.png)

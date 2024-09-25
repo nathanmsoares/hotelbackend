@@ -3,7 +3,7 @@
 Este projeto vem a calcular a estadia do usuario
 fazer checkin, checkout e incluir hóspedes. 
 
-Este projeto buscou utilizar clean architecture
+Este projeto buscou utilizar clean architecture e arquitetura hexagonal e Event Storming
 
 ![](images/clean_arc.webp)
 
